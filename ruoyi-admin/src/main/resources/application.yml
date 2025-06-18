@@ -129,10 +129,10 @@ security:
     - /resource/oss/upload
     # 重置密码
     - /auth/reset/password
-    # 聊天接口
-    - /chat/send
-    # 文件上传
-    - /chat/upload
+#    # 聊天接口
+#    - /chat/send
+#    # 文件上传
+#    - /chat/upload
     # 静态资源
     - /*.html
     - /**/*.html
