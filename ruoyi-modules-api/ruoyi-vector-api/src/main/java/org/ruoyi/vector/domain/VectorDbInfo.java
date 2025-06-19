@@ -1,6 +1,7 @@
 package org.ruoyi.vector.domain;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -24,6 +25,11 @@ public class VectorDbInfo extends BaseEntity implements VectorDB {
      */
     @TableId(type = IdType.AUTO)
     private Long id;
+
+    /**
+     * 标签
+     */
+    private String label;
 
     /**
      * 向量数据库类型，如milvus、pgvector等，用Int常量表示
@@ -133,6 +139,7 @@ public class VectorDbInfo extends BaseEntity implements VectorDB {
     /**
      * 连接参数，JSON格式
      */
+    @TableField(value="params")
     private String connectParams;
 
 

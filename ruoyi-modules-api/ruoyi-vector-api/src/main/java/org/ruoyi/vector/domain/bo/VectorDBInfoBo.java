@@ -25,6 +25,9 @@ public class VectorDBInfoBo extends BaseEntity {
     @NotNull(message = "向量数据库类型不能为空", groups = { AddGroup.class, EditGroup.class })
     private Integer type;
 
+    @NotNull(message="标签不能为空", groups = {AddGroup.class, EditGroup.class})
+    private String label;
+
     /**
      * 向量库主机名，域名/ip
      */

@@ -1,6 +1,11 @@
 package org.ruoyi.vector.domain.vo;
 
+import com.alibaba.excel.annotation.ExcelIgnoreUnannotated;
+import io.github.linpeilie.annotations.AutoMapper;
 import lombok.Data;
+import org.ruoyi.vector.domain.VectorDbInfo;
+
+import java.io.Serializable;
 
 /**
  * @author Zhang De Ning
@@ -9,7 +14,11 @@ import lombok.Data;
  * @description
  */
 @Data
-public class VectorDBInfoVo {
+@ExcelIgnoreUnannotated
+@AutoMapper(target = VectorDbInfo.class)
+public class VectorDBInfoVo implements Serializable {
+    private Long id;
+    private String label;
     /**
      * 向量数据库类型，如milvus、pgvector等，用Int常量表示
      */
@@ -118,5 +127,5 @@ public class VectorDBInfoVo {
     /**
      * 连接参数，JSON格式
      */
-    private String params;
+    private String connectParams;
 }

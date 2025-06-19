@@ -49,4 +49,11 @@ public interface VectorDbInfoService extends IService<VectorDbInfo> {
      * @return
      */
     TableDataInfo<VectorDBInfoVo> listVectorDBInfo(VectorDBInfoBo vectorDBInfoBo, PageQuery pageQuery);
+
+    /**
+     * 获取单个数据库信息
+     * @param id 数据库ID
+     * @return 数据库信息
+     */
+    VectorDBInfoVo getVectorDBInfo(Long id);
 }

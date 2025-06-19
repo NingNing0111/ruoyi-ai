@@ -2,6 +2,7 @@ package org.ruoyi.vector.controller;
 
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import lombok.RequiredArgsConstructor;
+import org.ruoyi.common.core.domain.R;
 import org.ruoyi.common.core.domain.vo.Label;
 import org.ruoyi.common.idempotent.annotation.RepeatSubmit;
 import org.ruoyi.common.log.annotation.Log;
@@ -32,8 +33,8 @@ public class VectorDBInfoController {
 
     @GetMapping("/types")
     @SaCheckPermission("vector:db:types")
-    public List<Label<Integer>> types() {
-        return vectorDbInfoService.listVectorTypes();
+    public R<List<Label<Integer>>> types() {
+        return R.ok(vectorDbInfoService.listVectorTypes());
     }
 
     @GetMapping("/list")
@@ -46,23 +47,30 @@ public class VectorDBInfoController {
     @SaCheckPermission("vector:db:insert")
     @Log(title = "新增或者修改向量库信息", businessType = BusinessType.INSERT)
     @RepeatSubmit()
-    public Long insert(@RequestBody VectorDBInfoBo vectorDBInfoBo) {
-        return vectorDbInfoService.insertVectorDBInfo(vectorDBInfoBo);
+    public R<Long> insert(@RequestBody VectorDBInfoBo vectorDBInfoBo) {
+        return R.ok(vectorDbInfoService.insertVectorDBInfo(vectorDBInfoBo));
     }
 
     @DeleteMapping("/{id}")
     @SaCheckPermission("vector:db:delete")
+    @RepeatSubmit()
     @Log(title = "删除向量库信息", businessType = BusinessType.DELETE)
-    public Boolean delete(@PathVariable Long id) {
-        return vectorDbInfoService.deleteVectorDBInfo(id);
+    public R<Boolean> delete(@PathVariable Long id) {
+        return R.ok(vectorDbInfoService.deleteVectorDBInfo(id));
     }
 
     @SaCheckPermission("vector:db:update")
     @Log(title = "修改向量库信息", businessType = BusinessType.UPDATE)
     @RepeatSubmit()
     @PutMapping()
-    public Boolean update(@RequestBody VectorDBInfoBo vectorDBInfoBo) {
-        return vectorDbInfoService.updateVectorDBInfo(vectorDBInfoBo);
+    public R<Boolean> update(@RequestBody VectorDBInfoBo vectorDBInfoBo) {
+        return R.ok(vectorDbInfoService.updateVectorDBInfo(vectorDBInfoBo));
+    }
+
+    @SaCheckPermission("vector:db:detail")
+    @GetMapping("/{id}")
+    public R<VectorDBInfoVo> update(@PathVariable Long id) {
+        return R.ok(vectorDbInfoService.getVectorDBInfo(id));
     }
 
 }

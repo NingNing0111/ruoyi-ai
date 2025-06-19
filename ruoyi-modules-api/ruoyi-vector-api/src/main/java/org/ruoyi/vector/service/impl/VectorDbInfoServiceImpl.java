@@ -80,6 +80,11 @@ public class VectorDbInfoServiceImpl extends ServiceImpl<VectorDbInfoMapper, Vec
         return TableDataInfo.build(result);
     }
 
+    @Override
+    public VectorDBInfoVo getVectorDBInfo(Long id) {
+        return vectorDbInfoMapper.selectVoById(id);
+    }
+
 
     private LambdaQueryWrapper<VectorDbInfo> buildQueryWrapper(VectorDBInfoBo vectorDBInfoBo) {
         LambdaQueryWrapper<VectorDbInfo> qw = new LambdaQueryWrapper<>();
