@@ -15,4 +15,6 @@ public class KnowledgeInfoUploadBo {
     private String kid;
 
     private MultipartFile file;
+
+    private String score;
 }

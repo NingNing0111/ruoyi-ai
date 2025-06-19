@@ -206,11 +206,11 @@ public class KnowledgeInfoServiceImpl implements IKnowledgeInfoService {
 
   @Override
   public void upload(KnowledgeInfoUploadBo bo) {
-    storeContent(bo.getFile(), bo.getKid());
+    storeContent(bo.getFile(), bo.getKid(), Integer.parseInt(bo.getScore()));
   }
 
   @Transactional(rollbackFor = Exception.class)
-  public void storeContent(MultipartFile file, String kid) {
+  public void storeContent(MultipartFile file, String kid, Integer score) {
     String fileName = file.getOriginalFilename();
     List<String> chunkList = new ArrayList<>();
     KnowledgeAttach knowledgeAttach = new KnowledgeAttach();
@@ -228,6 +228,7 @@ public class KnowledgeInfoServiceImpl implements IKnowledgeInfoService {
     List<String> fids = new ArrayList<>();
     knowledgeAttach.setContent(content);
     knowledgeAttach.setCreateTime(new Date());
+    knowledgeAttach.setScore(score);
     attachMapper.insert(knowledgeAttach);
     List<Document> list = new ArrayList<>();
     try {
@@ -250,7 +251,7 @@ public class KnowledgeInfoServiceImpl implements IKnowledgeInfoService {
           map.put("kId", kid);
           map.put("docId", knowledgeAttach.getId());
           map.put("fid", fid);
-          map.put("score", 123);
+          map.put("score", score);
           map.put("creator", knowledgeAttach.getCreateBy());
           Document document = new Document(chunkList.get(i), map);
           list.add(document);
