@@ -158,4 +158,10 @@ public class KnowledgeController extends BaseController {
     return attachService.translationByFile(file, targetLanguage);
   }
 
+  @PostMapping("/updateAttachScore")
+  @ResponseBody
+  public R<Void> updateAttachScore(@RequestBody KnowledgeAttachBo bo) {
+    attachService.updateByBo(bo);
+     return R.ok();
+  }
 }

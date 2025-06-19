@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
 import org.ruoyi.chain.loader.ResourceLoader;
 import org.ruoyi.chain.loader.ResourceLoaderFactory;
+import org.ruoyi.common.ai.vector.VectorDBService;
 import org.ruoyi.common.core.domain.model.LoginUser;
 import org.ruoyi.common.core.utils.MapstructUtils;
 import org.ruoyi.common.core.utils.StringUtils;
@@ -28,11 +29,16 @@ import org.ruoyi.mapper.KnowledgeInfoMapper;
 import org.ruoyi.service.IKnowledgeInfoService;
 import org.ruoyi.service.VectorStoreService;
 import org.ruoyi.system.service.ISysOssService;
+import org.ruoyi.vector.mapper.VectorDbInfoMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.ai.document.Document;
+import org.springframework.ai.embedding.EmbeddingModel;
+import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -66,7 +72,14 @@ public class KnowledgeInfoServiceImpl implements IKnowledgeInfoService {
   private final ISysOssService ossService;
   @Autowired
   private MinIOUtil minIOUtil;
-
+  @Autowired
+  TransactionTemplate transactionTemplate;
+  @Autowired
+  VectorDBService vectorDBService;
+  @Autowired
+  EmbeddingModel embeddingModel;
+  @Autowired
+  VectorDbInfoMapper vectorDbInfoMapper;
   /**
    * 查询知识库
    */
@@ -193,10 +206,11 @@ public class KnowledgeInfoServiceImpl implements IKnowledgeInfoService {
 
   @Override
   public void upload(KnowledgeInfoUploadBo bo) {
-    storeContent(bo.getFile(), bo.getKid(), bo.getScore());
+    storeContent(bo.getFile(), bo.getKid());
   }
 
-  public void storeContent(MultipartFile file, String kid, Integer score) {
+  @Transactional(rollbackFor = Exception.class)
+  public void storeContent(MultipartFile file, String kid) {
     String fileName = file.getOriginalFilename();
     List<String> chunkList = new ArrayList<>();
     KnowledgeAttach knowledgeAttach = new KnowledgeAttach();
@@ -208,11 +222,14 @@ public class KnowledgeInfoServiceImpl implements IKnowledgeInfoService {
     knowledgeAttach.setObjectName(null);
     knowledgeAttach.setDocId(docId);
     knowledgeAttach.setDocName(fileName);
-    knowledgeAttach.setScore(score);
     knowledgeAttach.setDocType(fileName.substring(fileName.lastIndexOf(".")+1));
     String content = "";
     ResourceLoader resourceLoader = resourceLoaderFactory.getLoaderByFileType(knowledgeAttach.getDocType());
     List<String> fids = new ArrayList<>();
+    knowledgeAttach.setContent(content);
+    knowledgeAttach.setCreateTime(new Date());
+    attachMapper.insert(knowledgeAttach);
+    List<Document> list = new ArrayList<>();
     try {
       content = resourceLoader.getContent(file.getInputStream());
       chunkList = resourceLoader.getChunkList(content, kid);
@@ -229,15 +246,21 @@ public class KnowledgeInfoServiceImpl implements IKnowledgeInfoService {
           knowledgeFragment.setContent(chunkList.get(i));
           knowledgeFragment.setCreateTime(new Date());
           knowledgeFragmentList.add(knowledgeFragment);
+          Map<String, Object> map = new HashMap<>();
+          map.put("kId", kid);
+          map.put("docId", knowledgeAttach.getId());
+          map.put("fid", fid);
+          map.put("score", 123);
+          map.put("creator", knowledgeAttach.getCreateBy());
+          Document document = new Document(chunkList.get(i), map);
+          list.add(document);
         }
       }
       fragmentMapper.insertBatch(knowledgeFragmentList);
     } catch (IOException e) {
       log.error("保存知识库信息失败！{}", e.getMessage());
+      throw new RuntimeException(e);
     }
-    knowledgeAttach.setContent(content);
-    knowledgeAttach.setCreateTime(new Date());
-    attachMapper.insert(knowledgeAttach);
 
     // 通过kid查询知识库信息
     KnowledgeInfoVo knowledgeInfoVo = baseMapper.selectVoOne(Wrappers.<KnowledgeInfo>lambdaQuery()
@@ -246,16 +269,18 @@ public class KnowledgeInfoServiceImpl implements IKnowledgeInfoService {
 //    // 通过向量模型查询模型信息
 //    ChatModelVo chatModelVo = chatModelService.selectModelByName(knowledgeInfoVo.getEmbeddingModelName());
 
-    StoreEmbeddingBo storeEmbeddingBo = new StoreEmbeddingBo();
-    storeEmbeddingBo.setKid(kid);
-    storeEmbeddingBo.setDocId(docId);
-    storeEmbeddingBo.setFids(fids);
-    storeEmbeddingBo.setChunkList(chunkList);
-    storeEmbeddingBo.setVectorModelName(knowledgeInfoVo.getVectorModelName());
-    storeEmbeddingBo.setEmbeddingModelName(knowledgeInfoVo.getEmbeddingModelName());
-//    storeEmbeddingBo.setApiKey(chatModelVo.getApiKey());
-//    storeEmbeddingBo.setBaseUrl(chatModelVo.getApiHost());
-    vectorStoreService.storeEmbeddings(storeEmbeddingBo);
+    VectorStore vectorStore = vectorDBService.getVectorStore(vectorDbInfoMapper.selectById(knowledgeInfoVo.getVId()), embeddingModel);
+    vectorStore.add(list);
+//    StoreEmbeddingBo storeEmbeddingBo = new StoreEmbeddingBo();
+//    storeEmbeddingBo.setKid(kid);
+//    storeEmbeddingBo.setDocId(docId);
+//    storeEmbeddingBo.setFids(fids);
+//    storeEmbeddingBo.setChunkList(chunkList);
+//    storeEmbeddingBo.setVectorModelName(knowledgeInfoVo.getVectorModelName());
+//    storeEmbeddingBo.setEmbeddingModelName(knowledgeInfoVo.getEmbeddingModelName());
+////    storeEmbeddingBo.setApiKey(chatModelVo.getApiKey());
+////    storeEmbeddingBo.setBaseUrl(chatModelVo.getApiHost());
+//    vectorStoreService.storeEmbeddings(storeEmbeddingBo);
   }
 
   /**

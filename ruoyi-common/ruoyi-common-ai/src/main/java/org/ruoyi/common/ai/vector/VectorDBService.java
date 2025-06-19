@@ -44,6 +44,7 @@ public interface VectorDBService<T extends VectorDB> {
                         .iDFieldName(vectorDB.getIdFieldName())
                         .metadataFieldName(vectorDB.getMetadataFieldName())
                         .embeddingFieldName(vectorDB.getEmbeddingFieldName())
+                        .autoId(true)
                         .build();
             }
             default -> {
