@@ -47,10 +47,10 @@
             <artifactId>ruoyi-system</artifactId>
         </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>org.ruoyi</groupId>-->
-<!--            <artifactId>ruoyi-chat</artifactId>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>org.ruoyi</groupId>
+            <artifactId>ruoyi-chat</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.ruoyi</groupId>
@@ -62,7 +62,6 @@
             <version>1.0.0</version>
             <scope>compile</scope>
         </dependency>
-
         <dependency>
             <groupId>org.ruoyi</groupId>
             <artifactId>ruoyi-vector</artifactId>
