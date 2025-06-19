@@ -22,6 +22,7 @@
         <module>ruoyi-system</module>
         <module>ruoyi-generator</module>
         <module>ruoyi-vector</module>
+        <module>ruoyi-remove-api</module>
     </modules>
 
     <properties>
@@ -66,7 +67,10 @@
             <artifactId>httpmime</artifactId>
             <version>${httpclient.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.ruoyi</groupId>
+            <artifactId>ruoyi-vector-api</artifactId>
+        </dependency>
     </dependencies>
 
 </project>
