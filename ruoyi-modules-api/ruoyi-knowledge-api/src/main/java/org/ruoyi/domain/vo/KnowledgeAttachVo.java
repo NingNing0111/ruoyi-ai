@@ -91,4 +91,28 @@ public class KnowledgeAttachVo implements Serializable {
    */
   @ExcelProperty(value = "写入向量数据库状态10未开始，20进行中，30已完成")
   private Integer vectorStatus;
+
+  /**
+   * 桶名
+   */
+  @ExcelProperty(value = "桶名")
+  private String bucketName;
+
+  /**
+   * 对象名
+   */
+  @ExcelProperty(value = "对象名")
+  private String objectName;
+
+  /**
+   * 文档链接
+   */
+  @ExcelProperty(value = "文档链接")
+  private String url;
+
+  /**
+   * 文档权重
+   */
+  @ExcelProperty(value = "文档权重")
+  private Long score;
 }

@@ -11,6 +11,7 @@ import org.ruoyi.chain.loader.ResourceLoaderFactory;
 import org.ruoyi.common.core.domain.model.LoginUser;
 import org.ruoyi.common.core.utils.MapstructUtils;
 import org.ruoyi.common.core.utils.StringUtils;
+import org.ruoyi.common.minio.util.MinIOUtil;
 import org.ruoyi.common.satoken.utils.LoginHelper;
 import org.ruoyi.core.page.PageQuery;
 import org.ruoyi.core.page.TableDataInfo;
@@ -31,6 +32,7 @@ import org.ruoyi.service.VectorStoreService;
 import org.ruoyi.system.service.ISysOssService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -64,6 +66,8 @@ public class KnowledgeInfoServiceImpl implements IKnowledgeInfoService {
   private final IChatModelService chatModelService;
 
   private final ISysOssService ossService;
+  @Autowired
+  private MinIOUtil minIOUtil;
 
   /**
    * 查询知识库
@@ -191,17 +195,22 @@ public class KnowledgeInfoServiceImpl implements IKnowledgeInfoService {
 
   @Override
   public void upload(KnowledgeInfoUploadBo bo) {
-    storeContent(bo.getFile(), bo.getKid());
+    storeContent(bo.getFile(), bo.getKid(), bo.getScore());
   }
 
-  public void storeContent(MultipartFile file, String kid) {
+  public void storeContent(MultipartFile file, String kid, Integer score) {
     String fileName = file.getOriginalFilename();
     List<String> chunkList = new ArrayList<>();
     KnowledgeAttach knowledgeAttach = new KnowledgeAttach();
     knowledgeAttach.setKid(kid);
     String docId = RandomUtil.randomString(10);
+    Map<String, String> responeMap = minIOUtil.uploadFile(file);
+    knowledgeAttach.setUrl(responeMap.get("url"));
+    knowledgeAttach.setBucketName(minIOUtil.getDefaultBucketName());
+    knowledgeAttach.setObjectName(null);
     knowledgeAttach.setDocId(docId);
     knowledgeAttach.setDocName(fileName);
+    knowledgeAttach.setScore(score);
     knowledgeAttach.setDocType(fileName.substring(fileName.lastIndexOf(".")+1));
     String content = "";
     ResourceLoader resourceLoader = resourceLoaderFactory.getLoaderByFileType(knowledgeAttach.getDocType());

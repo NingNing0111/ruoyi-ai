@@ -88,5 +88,23 @@ public class KnowledgeAttachBo extends BaseEntity {
   @NotNull(message = "写入向量数据库状态10未开始，20进行中，30已完成不能为空", groups = { AddGroup.class, EditGroup.class })
   private Integer vectorStatus;
 
+  /**
+   * 桶名
+   */
+  private String bucketName;
 
+  /**
+   * 对象名
+   */
+  private String objectName;
+
+  /**
+   * 文档链接
+   */
+  private String url;
+
+  /**
+   * 文档权重
+   */
+  private Long score;
 }

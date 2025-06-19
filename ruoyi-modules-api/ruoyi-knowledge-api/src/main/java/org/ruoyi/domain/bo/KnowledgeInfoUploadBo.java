@@ -13,4 +13,5 @@ public class KnowledgeInfoUploadBo {
 
     private MultipartFile file;
 
+    private Integer score;
 }
