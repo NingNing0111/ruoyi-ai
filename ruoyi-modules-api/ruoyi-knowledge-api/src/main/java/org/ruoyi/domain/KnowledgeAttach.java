@@ -81,4 +81,23 @@ public class KnowledgeAttach extends BaseEntity {
    */
   private Integer vectorStatus;
 
+  /**
+   * 桶名
+   */
+  private String bucketName;
+
+  /**
+   * 对象名
+   */
+  private String objectName;
+
+  /**
+   * 文档链接
+   */
+  private String url;
+
+  /**
+   * 文档权重
+   */
+  private Integer score;
 }

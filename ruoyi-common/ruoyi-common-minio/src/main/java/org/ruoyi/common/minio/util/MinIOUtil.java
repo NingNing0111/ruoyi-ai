@@ -299,5 +299,9 @@ public class MinIOUtil {
         // 这里使用简单的文件大小和修改时间作为哈希值，实际应用中应使用MD5或SHA-1等算法
         return file.getSize() + "-" + file.getOriginalFilename();
     }
+
+    public String getDefaultBucketName() {
+        return defaultBucketName;
+    }
 }
 

@@ -1,5 +1,6 @@
 package org.ruoyi.domain.bo;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.github.linpeilie.annotations.AutoMapper;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -100,6 +101,28 @@ public class KnowledgeInfoBo extends BaseEntity {
      * 系统提示词
      */
     private String systemPrompt;
+
+    /**
+     * 接入的向量数据库id
+     */
+    @NotNull(message = "向量数据库id不能为空", groups = { AddGroup.class, EditGroup.class })
+    @JsonProperty("vectorId")
+    private Integer vId;
+
+    /**
+     * 知识库的类型（1为文本知识库，2为图片知识库）
+     */
+    @NotNull(message = "知识库的类型不能为空", groups = { AddGroup.class, EditGroup.class })
+    private Integer type;
+
+    /**
+     * 文档划分策略（1表示按字符数量进行划分，2为专为代码设计的切分器，3为按 Markdown 结构进行划分，4为按 Token 数量进行划分）
+     */
+    @NotNull(message = "文档划分策略不能为空", groups = { AddGroup.class, EditGroup.class })
+    private Integer splitterType;
+    /**
+     * 备注
+     */
 
     /**
      * 备注
