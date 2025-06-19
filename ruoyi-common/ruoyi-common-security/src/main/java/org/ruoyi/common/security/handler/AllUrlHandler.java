@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * 获取所有Url配置
@@ -35,7 +36,19 @@ public class AllUrlHandler implements InitializingBean {
         Pattern pattern = Pattern.compile("\\{(.*?)\\}");
 
         Set<String> handlerSet = handlerMethods.keySet().stream()
-                .flatMap(info -> info.getPatternsCondition().getPatterns().stream())
+                .flatMap(info -> {
+                    // Spring Boot 3.x 使用 getPathPatternsCondition
+                    if (info.getPathPatternsCondition() != null) {
+                        return info.getPathPatternsCondition().getPatterns()
+                                .stream().map(Object::toString);
+                    }
+                    // Spring Boot 2.x 使用 getPatternsCondition
+                    else if (info.getPatternsCondition() != null) {
+                        return info.getPatternsCondition().getPatterns().stream();
+                    } else {
+                        return Stream.empty();
+                    }
+                })
                 .collect(Collectors.toSet());
 
         // 获取注解上边的 path 替代 path variable 为 *
