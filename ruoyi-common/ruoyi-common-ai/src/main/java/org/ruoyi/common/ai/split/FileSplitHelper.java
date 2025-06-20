@@ -5,12 +5,10 @@ import org.ruoyi.common.ai.standard.SplitStandard;
 import java.util.List;
 
 /**
- * /**
- *  * @author Peng WenDeng
- *  * @email pengwendeng@huice.com
- *  * @time 2025-06-20 10-15
- *  * @description 文本切分
- *  */
+ * @author Peng WenDeng
+ * @email pengwendeng@huice.com
+ * @time 2025-06-20 10-15
+ * @description 文本切分
  */
 public interface FileSplitHelper {
 
