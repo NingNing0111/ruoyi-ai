@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
+import org.ruoyi.api.enums.VectorStatusEnums;
 import org.ruoyi.chain.loader.ResourceLoader;
 import org.ruoyi.chain.loader.ResourceLoaderFactory;
 import org.ruoyi.common.ai.vector.VectorDBService;
@@ -31,6 +32,7 @@ import org.ruoyi.mapper.KnowledgeInfoMapper;
 import org.ruoyi.service.IKnowledgeInfoService;
 import org.ruoyi.service.VectorStoreService;
 import org.ruoyi.system.service.ISysOssService;
+import org.ruoyi.vector.domain.VectorDbInfo;
 import org.ruoyi.vector.mapper.VectorDbInfoMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,6 +40,7 @@ import org.springframework.ai.document.Document;
 import org.springframework.ai.embedding.EmbeddingModel;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionTemplate;
@@ -48,6 +51,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 
 
 /**
@@ -71,6 +75,8 @@ public class KnowledgeInfoServiceImpl implements IKnowledgeInfoService {
   private final KnowledgeFragmentMapper fragmentMapper;
 
   private final KnowledgeAttachMapper attachMapper;
+  @Autowired
+  ThreadPoolTaskExecutor threadPoolTaskExecutor;
 
 //  private final IChatModelService chatModelService;
 
@@ -242,8 +248,6 @@ public class KnowledgeInfoServiceImpl implements IKnowledgeInfoService {
     KnowledgeAttach knowledgeAttach = new KnowledgeAttach();
     knowledgeAttach.setKid(kid);
     String docId = RandomUtil.randomString(10);
-
-
     Map<String, String> responeMap = minIOUtil.uploadFile(file);
     String url = responeMap.get("url");
     String[] split = url.split("/");
@@ -261,6 +265,7 @@ public class KnowledgeInfoServiceImpl implements IKnowledgeInfoService {
     knowledgeAttach.setScore(score);
     knowledgeAttach.setMd5(md5);
     try {
+      knowledgeAttach.setVectorStatus(VectorStatusEnums.NOT_STARTED.getCode());
       attachMapper.insert(knowledgeAttach);
     } catch (Exception e) {
       e.printStackTrace();
@@ -298,11 +303,35 @@ public class KnowledgeInfoServiceImpl implements IKnowledgeInfoService {
       throw new RuntimeException(e);
     }
 //    通过kid查询知识库信息
-    KnowledgeInfoVo knowledgeInfoVo = baseMapper.selectVoOne(Wrappers.<KnowledgeInfo>lambdaQuery()
-            .eq(KnowledgeInfo::getId, kid));
-    VectorStore vectorStore = vectorDBService.getVectorStore(vectorDbInfoMapper.selectById(knowledgeInfoVo.getVId()), embeddingModel);
-    vectorStore.add(list);
 
+    CompletableFuture.runAsync(() -> {
+      KnowledgeInfoVo knowledgeInfoVo = baseMapper.selectVoOne(Wrappers.<KnowledgeInfo>lambdaQuery()
+              .eq(KnowledgeInfo::getId, kid));
+      if (knowledgeInfoVo == null) {
+        log.warn("未查询到知识库： id: {}", kid);
+        knowledgeAttach.setVectorStatus(VectorStatusEnums.ERROR.getCode());
+        attachMapper.updateById(knowledgeAttach);
+        return;
+      }
+
+
+      VectorDbInfo vectorDbInfo = vectorDbInfoMapper.selectById(knowledgeInfoVo.getVId());
+      if (vectorDbInfo == null) {
+        log.warn("未查询到向量数据库 id: {}", knowledgeInfoVo.getVId());
+        knowledgeAttach.setVectorStatus(VectorStatusEnums.ERROR.getCode());
+        attachMapper.updateById(knowledgeAttach);
+        return;
+      }
+
+      knowledgeAttach.setVectorStatus(VectorStatusEnums.IN_PROGRESS.getCode());
+      attachMapper.updateById(knowledgeAttach);
+
+      VectorStore vectorStore = vectorDBService.getVectorStore(vectorDbInfo, embeddingModel);
+      vectorStore.add(list);
+
+      knowledgeAttach.setVectorStatus(VectorStatusEnums.COMPLETED.getCode());
+      attachMapper.updateById(knowledgeAttach);
+    }, threadPoolTaskExecutor);
 //    // 通过向量模型查询模型信息
 //    ChatModelVo chatModelVo = chatModelService.selectModelByName(knowledgeInfoVo.getEmbeddingModelName());
 

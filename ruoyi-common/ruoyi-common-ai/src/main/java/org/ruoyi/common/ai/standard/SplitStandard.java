@@ -23,7 +23,7 @@ public class SplitStandard {
     /**
      * 知识库id
      */
-    private Integer kId;
+    private Long kId;
     /**
      * 文档权重
      */
@@ -61,7 +61,7 @@ public class SplitStandard {
         return overlapChar;
     }
 
-    public Integer getKId() {
+    public Long getKId() {
         return kId;
     }
 
@@ -95,7 +95,7 @@ public class SplitStandard {
         private String separator;
         private Integer textBlockSize;
         private Integer overlapChar;
-        private Integer kId;
+        private Long kId;
         private Integer score;
         private Long createBy;
 
@@ -116,7 +116,7 @@ public class SplitStandard {
             return this;
         }
 
-        public Builder kId(Integer kId) {
+        public Builder kId(Long kId) {
             this.kId = kId;
             return this;
         }

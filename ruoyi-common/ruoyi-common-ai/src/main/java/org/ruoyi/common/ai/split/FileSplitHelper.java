@@ -32,10 +32,10 @@ public interface FileSplitHelper {
 			return new HashMap<>();
 		}
 		Map<String, Object> map = new HashMap<>();
-		map.put("kId", splitStandard.getKId());
-		map.put("docId", splitStandard.getDocId());
+		map.put("kId", splitStandard.getKId().toString());
+		map.put("docId", splitStandard.getDocId().toString());
 		map.put("score", splitStandard.getScore());
-		map.put("creator", splitStandard.getCreateBy());
+		map.put("creator", splitStandard.getCreateBy().toString());
 		return map;
 	}
 }
