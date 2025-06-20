@@ -1,5 +1,7 @@
 package org.ruoyi.common.ai.split;
 
+import org.ruoyi.common.ai.standard.SplitStandard;
+
 import java.util.List;
 
 /**
@@ -13,6 +15,10 @@ public interface FileSplitHelper {
 	 * @param kid 知识库id
 	 * @return 切分后的文本列表
 	 */
-	List<String> split(String content, String kid);
+	List<String> split(String content, SplitStandard splitStandard);
+
+	default List<String> split(String content) {
+		return this.split(content,null);
+	}
 
 }

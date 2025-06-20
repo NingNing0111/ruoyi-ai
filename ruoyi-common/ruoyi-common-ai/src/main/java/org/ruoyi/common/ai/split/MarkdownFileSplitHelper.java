@@ -1,5 +1,6 @@
 package org.ruoyi.common.ai.split;
 
+import org.ruoyi.common.ai.standard.SplitStandard;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ public class MarkdownFileSplitHelper implements FileSplitHelper {
 	private final int MAX_CHUCK_LENGTH = 1000;
 
 	@Override
-	public List<String> split(String content, String kid) {
+	public List<String> split(String content, SplitStandard splitStandard) {
 		return splitByHeading(content);
 	}
 
