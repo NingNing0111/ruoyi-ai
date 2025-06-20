@@ -1,19 +1,18 @@
 package org.ruoyi.common.ai.split;
 
-import org.springframework.ai.document.Document;
-
 import java.util.List;
 
 /**
- * @author Zhang De Ning
- * @email zhangdening@huice.com
- * @time 2025-06-19 17:06
- * @description
+ * 文本切分
  */
 public interface FileSplitHelper {
-    /**
-     * 分割切片
-     * @return
-     */
-    List<Document> split();
+
+	/**
+	 * 文本切分
+	 * @param content 文本内容
+	 * @param kid 知识库id
+	 * @return 切分后的文本列表
+	 */
+	List<String> split(String content, String kid);
+
 }

@@ -227,10 +227,14 @@ public class KnowledgeInfoServiceImpl implements IKnowledgeInfoService {
     KnowledgeAttach knowledgeAttach = new KnowledgeAttach();
     knowledgeAttach.setKid(kid);
     String docId = RandomUtil.randomString(10);
+
+
     Map<String, String> responeMap = minIOUtil.uploadFile(file);
-    knowledgeAttach.setUrl(responeMap.get("url"));
+    String url = responeMap.get("url");
+    String[] split = url.split("/");
+    knowledgeAttach.setUrl(url);
     knowledgeAttach.setBucketName(minIOUtil.getDefaultBucketName());
-    knowledgeAttach.setObjectName(null);
+    knowledgeAttach.setObjectName(split[split.length - 1]);
     knowledgeAttach.setDocId(docId);
     knowledgeAttach.setDocName(fileName);
     knowledgeAttach.setDocType(fileName.substring(fileName.lastIndexOf(".")+1));
