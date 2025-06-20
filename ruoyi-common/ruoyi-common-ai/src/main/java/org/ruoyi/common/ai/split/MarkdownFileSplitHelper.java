@@ -1,7 +1,5 @@
-package org.ruoyi.chain.split;
+package org.ruoyi.common.ai.split;
 
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -10,9 +8,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Component
-@AllArgsConstructor
-@Slf4j
-public class MarkdownTextSplitter implements TextSplitter {
+public class MarkdownFileSplitHelper implements FileSplitHelper {
 	private final int MAX_CHUCK_LENGTH = 1000;
 
 	@Override
