@@ -7,9 +7,15 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
+import org.ruoyi.api.enums.SplitterTypeEnums;
 import org.ruoyi.api.enums.VectorStatusEnums;
 import org.ruoyi.chain.loader.ResourceLoader;
 import org.ruoyi.chain.loader.ResourceLoaderFactory;
+import org.ruoyi.common.ai.split.CharacterFileSplitHelper;
+import org.ruoyi.common.ai.split.FileSplitHelper;
+import org.ruoyi.common.ai.split.MarkdownFileSplitHelper;
+import org.ruoyi.common.ai.split.TokenFileSplitHelper;
+import org.ruoyi.common.ai.standard.SplitStandard;
 import org.ruoyi.common.ai.vector.VectorDBService;
 import org.ruoyi.common.core.domain.model.LoginUser;
 import org.ruoyi.common.core.domain.vo.Label;
@@ -258,7 +264,6 @@ public class KnowledgeInfoServiceImpl implements IKnowledgeInfoService {
     knowledgeAttach.setDocName(fileName);
     knowledgeAttach.setDocType(fileName.substring(fileName.lastIndexOf(".")+1));
     String content = "";
-    ResourceLoader resourceLoader = resourceLoaderFactory.getLoaderByFileType(knowledgeAttach.getDocType());
     List<String> fids = new ArrayList<>();
     knowledgeAttach.setContent(content);
     knowledgeAttach.setCreateTime(new Date());
@@ -271,49 +276,54 @@ public class KnowledgeInfoServiceImpl implements IKnowledgeInfoService {
       e.printStackTrace();
       throw new Exception("知识文档上传错误，同一个文件在同一知识库只能上传一次");
     }
-    List<Document> list = new ArrayList<>();
-    try {
-      content = resourceLoader.getContent(file.getInputStream());
-      chunkList = resourceLoader.getChunkList(content, kid);
-      List<KnowledgeFragment> knowledgeFragmentList = new ArrayList<>();
-      if (CollUtil.isNotEmpty(chunkList)) {
-        for (int i = 0; i < chunkList.size(); i++) {
-          String fid = RandomUtil.randomString(10);
-          fids.add(fid);
-          KnowledgeFragment knowledgeFragment = new KnowledgeFragment();
-          knowledgeFragment.setKid(kid);
-          knowledgeFragment.setDocId(docId);
-          knowledgeFragment.setFid(fid);
-          knowledgeFragment.setIdx(i);
-          knowledgeFragment.setContent(chunkList.get(i));
-          knowledgeFragment.setCreateTime(new Date());
-          knowledgeFragmentList.add(knowledgeFragment);
-          Map<String, Object> map = new HashMap<>();
-          map.put("kId", kid);
-          map.put("docId", knowledgeAttach.getId().toString());
-          map.put("score", score);
-          map.put("creator", knowledgeAttach.getCreateBy().toString());
-          Document document = new Document(chunkList.get(i), map);
-          list.add(document);
-        }
-      }
-      fragmentMapper.insertBatch(knowledgeFragmentList);
-    } catch (IOException e) {
-      log.error("保存知识库信息失败！{}", e.getMessage());
-      throw new RuntimeException(e);
-    }
+    KnowledgeInfoVo knowledgeInfoVo = baseMapper.selectVoOne(Wrappers.<KnowledgeInfo>lambdaQuery()
+            .eq(KnowledgeInfo::getId, kid));
+    FileSplitHelper fileSplitHelper = getSplitHelper(knowledgeInfoVo.getSplitterType());
+    ResourceLoader resourceLoader = resourceLoaderFactory.getLoaderByFileType(knowledgeAttach.getDocType());
+    content = resourceLoader.getContent(file.getInputStream());
+    SplitStandard splitStandard = new SplitStandard.Builder()
+            .textBlockSize(knowledgeInfoVo.getTextBlockSize())
+            .separator(knowledgeInfoVo.getKnowledgeSeparator())
+            .overlapChar(knowledgeInfoVo.getOverlapChar())
+            .kId(Long.parseLong(kid))
+            .score(score)
+            .createBy(knowledgeAttach.getCreateBy())
+            .docId(knowledgeAttach.getId())
+            .build();
+    List<Document> documentList = fileSplitHelper.split(content, splitStandard);
+//    List<Document> list = new ArrayList<>();
+//    try {
+//      chunkList = resourceLoader.getChunkList(content, kid);
+//      List<KnowledgeFragment> knowledgeFragmentList = new ArrayList<>();
+//      if (CollUtil.isNotEmpty(chunkList)) {
+//        for (int i = 0; i < chunkList.size(); i++) {
+//          String fid = RandomUtil.randomString(10);
+//          fids.add(fid);
+//          KnowledgeFragment knowledgeFragment = new KnowledgeFragment();
+//          knowledgeFragment.setKid(kid);
+//          knowledgeFragment.setDocId(docId);
+//          knowledgeFragment.setFid(fid);
+//          knowledgeFragment.setIdx(i);
+//          knowledgeFragment.setContent(chunkList.get(i));
+//          knowledgeFragment.setCreateTime(new Date());
+//          knowledgeFragmentList.add(knowledgeFragment);
+//          Map<String, Object> map = new HashMap<>();
+//          map.put("kId", kid);
+//          map.put("docId", knowledgeAttach.getId().toString());
+//          map.put("score", score);
+//          map.put("creator", knowledgeAttach.getCreateBy().toString());
+//          Document document = new Document(chunkList.get(i), map);
+//          list.add(document);
+//        }
+//      }
+//      fragmentMapper.insertBatch(knowledgeFragmentList);
+//    } catch (IOException e) {
+//      log.error("保存知识库信息失败！{}", e.getMessage());
+//      throw new RuntimeException(e);
+//    }
 //    通过kid查询知识库信息
 
     CompletableFuture.runAsync(() -> {
-      KnowledgeInfoVo knowledgeInfoVo = baseMapper.selectVoOne(Wrappers.<KnowledgeInfo>lambdaQuery()
-              .eq(KnowledgeInfo::getId, kid));
-      if (knowledgeInfoVo == null) {
-        log.warn("未查询到知识库： id: {}", kid);
-        knowledgeAttach.setVectorStatus(VectorStatusEnums.ERROR.getCode());
-        attachMapper.updateById(knowledgeAttach);
-        return;
-      }
-
 
       VectorDbInfo vectorDbInfo = vectorDbInfoMapper.selectById(knowledgeInfoVo.getVId());
       if (vectorDbInfo == null) {
@@ -327,7 +337,7 @@ public class KnowledgeInfoServiceImpl implements IKnowledgeInfoService {
       attachMapper.updateById(knowledgeAttach);
 
       VectorStore vectorStore = vectorDBService.getVectorStore(vectorDbInfo, embeddingModel);
-      vectorStore.add(list);
+      vectorStore.add(documentList);
 
       knowledgeAttach.setVectorStatus(VectorStatusEnums.COMPLETED.getCode());
       attachMapper.updateById(knowledgeAttach);
@@ -345,6 +355,20 @@ public class KnowledgeInfoServiceImpl implements IKnowledgeInfoService {
 ////    storeEmbeddingBo.setApiKey(chatModelVo.getApiKey());
 ////    storeEmbeddingBo.setBaseUrl(chatModelVo.getApiHost());
 //    vectorStoreService.storeEmbeddings(storeEmbeddingBo);
+  }
+
+  private FileSplitHelper getSplitHelper(Integer splitterType) {
+    if(splitterType.equals(SplitterTypeEnums.CHAR_COUNT.getType())) {
+      return new CharacterFileSplitHelper();
+
+    } else if(splitterType.equals(SplitterTypeEnums.MARKDOWN.getType())) {
+      return new MarkdownFileSplitHelper();
+
+    } else if(splitterType.equals(SplitterTypeEnums.TOKEN_COUNT.getType())) {
+      return new TokenFileSplitHelper();
+
+    }
+    throw new RuntimeException("未知的分词策略");
   }
 
   /**

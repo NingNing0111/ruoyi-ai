@@ -94,6 +94,10 @@
             <artifactId>ruoyi-common-minio</artifactId>
             <version>${revision}</version>
         </dependency>
+        <dependency>
+            <groupId>org.ruoyi</groupId>
+            <artifactId>ruoyi-common-ai</artifactId>
+        </dependency>
     </dependencies>
 
 </project>
