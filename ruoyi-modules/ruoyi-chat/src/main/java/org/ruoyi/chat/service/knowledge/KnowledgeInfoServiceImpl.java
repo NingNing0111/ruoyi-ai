@@ -195,7 +195,7 @@ public class KnowledgeInfoServiceImpl implements IKnowledgeInfoService {
 
   @Override
   public void upload(KnowledgeInfoUploadBo bo) {
-    storeContent(bo.getFile(), bo.getKid(), bo.getScore());
+    storeContent(bo.getFile(), bo.getKid(), Integer.parseInt(bo.getScore()));
   }
 
   public void storeContent(MultipartFile file, String kid, Integer score) {
