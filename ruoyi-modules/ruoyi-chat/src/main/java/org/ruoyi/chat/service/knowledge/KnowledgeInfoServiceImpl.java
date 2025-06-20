@@ -206,8 +206,8 @@ public class KnowledgeInfoServiceImpl implements IKnowledgeInfoService {
   public List<Label<Long>> knowledgeInfoList(String keyword) {
     LambdaQueryWrapper<KnowledgeInfo> qw = new LambdaQueryWrapper<>();
     qw.like(StringUtils.isNotEmpty(keyword), KnowledgeInfo::getKname, keyword);
-    List<KnowledgeInfoVo> vectorDBInfoVos = knowledgeInfoMapper.selectVoList(qw);
-    return vectorDBInfoVos.stream().map(item -> new Label<>(item.getId(), item.getKname())).toList();
+    List<KnowledgeInfoVo> KnowledgeInfoVos = knowledgeInfoMapper.selectVoList(qw);
+    return KnowledgeInfoVos.stream().map(item -> new Label<>(item.getId(), item.getKname())).toList();
   }
 
   public void storeContent(MultipartFile file, String kid, Integer score) {
