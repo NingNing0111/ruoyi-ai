@@ -271,7 +271,6 @@ public class KnowledgeInfoServiceImpl implements IKnowledgeInfoService {
           Map<String, Object> map = new HashMap<>();
           map.put("kId", kid);
           map.put("docId", knowledgeAttach.getId());
-          map.put("fid", fid);
           map.put("score", score);
           map.put("creator", knowledgeAttach.getCreateBy());
           Document document = new Document(chunkList.get(i), map);

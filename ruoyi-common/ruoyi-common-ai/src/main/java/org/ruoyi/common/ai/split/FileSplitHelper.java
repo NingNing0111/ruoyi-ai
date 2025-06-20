@@ -1,8 +1,11 @@
 package org.ruoyi.common.ai.split;
 
 import org.ruoyi.common.ai.standard.SplitStandard;
+import org.springframework.ai.document.Document;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Peng WenDeng
@@ -18,10 +21,21 @@ public interface FileSplitHelper {
 	 * @param splitStandard 分词标准
 	 * @return 切分后的文本列表
 	 */
-	List<String> split(String content, SplitStandard splitStandard);
+	List<Document> split(String content, SplitStandard splitStandard);
 
-	default List<String> split(String content) {
+	default List<Document> split(String content) {
 		return this.split(content,null);
 	}
 
+	default Map<String, Object> getMetaData(SplitStandard splitStandard) {
+		if(splitStandard == null) {
+			return new HashMap<>();
+		}
+		Map<String, Object> map = new HashMap<>();
+		map.put("kId", splitStandard.getKId());
+		map.put("docId", splitStandard.getDocId());
+		map.put("score", splitStandard.getScore());
+		map.put("creator", splitStandard.getCreateBy());
+		return map;
+	}
 }

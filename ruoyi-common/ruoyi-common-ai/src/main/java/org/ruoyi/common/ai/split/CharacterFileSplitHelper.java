@@ -2,11 +2,12 @@ package org.ruoyi.common.ai.split;
 
 import io.micrometer.common.util.StringUtils;
 import org.ruoyi.common.ai.standard.SplitStandard;
+import org.springframework.ai.document.Document;
 import org.springframework.context.annotation.Lazy;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
+
 /**
  * @author Peng WenDeng
  * @email pengwendeng@huice.com
@@ -17,7 +18,7 @@ import java.util.List;
 public class CharacterFileSplitHelper implements FileSplitHelper {
 
 	@Override
-	public List<String> split(String content, SplitStandard splitStandard) {
+	public List<Document> split(String content, SplitStandard splitStandard) {
 		String knowledgeSeparator = splitStandard.getSeparator();
 		int textBlockSize = splitStandard.getTextBlockSize();
 		int overlapChar = splitStandard.getOverlapChar();
@@ -52,7 +53,11 @@ public class CharacterFileSplitHelper implements FileSplitHelper {
 				}
 			}
 		}
-		return chunkList;
+		Map<String, Object> metaData = getMetaData(splitStandard);
+		List<Document> documentList = chunkList.stream()
+				.map(chunk -> new Document(chunk, metaData))
+				.collect(Collectors.toList());
+		return documentList;
 	}
 
 }

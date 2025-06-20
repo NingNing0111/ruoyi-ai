@@ -1,12 +1,16 @@
 package org.ruoyi.common.ai.split;
 
 import org.ruoyi.common.ai.standard.SplitStandard;
+import org.springframework.ai.document.Document;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+
 /**
  * @author Peng WenDeng
  * @email pengwendeng@huice.com
@@ -18,8 +22,13 @@ public class MarkdownFileSplitHelper implements FileSplitHelper {
 	private final int MAX_CHUCK_LENGTH = 1000;
 
 	@Override
-	public List<String> split(String content, SplitStandard splitStandard) {
-		return splitByHeading(content);
+	public List<Document> split(String content, SplitStandard splitStandard) {
+		Map<String, Object> metaData = getMetaData(splitStandard);
+
+		List<Document> documentList = splitByHeading(content).stream()
+				.map(chunk -> new Document(chunk, metaData))
+				.collect(Collectors.toList());
+		return documentList;
 	}
 
 	// 最大 chunk 长度（字符数或可换成 token）
