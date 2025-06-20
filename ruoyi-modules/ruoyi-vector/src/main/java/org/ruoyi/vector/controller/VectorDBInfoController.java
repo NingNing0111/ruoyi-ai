@@ -29,48 +29,54 @@ import java.util.List;
 @RequestMapping("/vector/db")
 public class VectorDBInfoController {
 
-    private final VectorDbInfoService vectorDbInfoService;
+	private final VectorDbInfoService vectorDbInfoService;
 
-    @GetMapping("/types")
-    @SaCheckPermission("vector:db:types")
-    public R<List<Label<Integer>>> types() {
-        return R.ok(vectorDbInfoService.listVectorTypes());
-    }
+	@GetMapping("/types")
+	@SaCheckPermission("vector:db:types")
+	public R<List<Label<Integer>>> types() {
+		return R.ok(vectorDbInfoService.listVectorTypes());
+	}
 
-    @GetMapping("/list")
-    @SaCheckPermission("vector:db:list")
-    public TableDataInfo<VectorDBInfoVo> list(VectorDBInfoBo bo, PageQuery pageQuery) {
-        return vectorDbInfoService.listVectorDBInfo(bo, pageQuery);
-    }
+	@GetMapping("/list")
+	@SaCheckPermission("vector:db:list")
+	public TableDataInfo<VectorDBInfoVo> list(VectorDBInfoBo bo, PageQuery pageQuery) {
+		return vectorDbInfoService.listVectorDBInfo(bo, pageQuery);
+	}
 
-    @PostMapping("/insert")
-    @SaCheckPermission("vector:db:insert")
-    @Log(title = "新增或者修改向量库信息", businessType = BusinessType.INSERT)
-    @RepeatSubmit()
-    public R<Long> insert(@RequestBody VectorDBInfoBo vectorDBInfoBo) {
-        return R.ok(vectorDbInfoService.insertVectorDBInfo(vectorDBInfoBo));
-    }
+	@PostMapping("/insert")
+	@SaCheckPermission("vector:db:insert")
+	@Log(title = "新增或者修改向量库信息", businessType = BusinessType.INSERT)
+	@RepeatSubmit()
+	public R<Long> insert(@RequestBody VectorDBInfoBo vectorDBInfoBo) {
+		return R.ok(vectorDbInfoService.insertVectorDBInfo(vectorDBInfoBo));
+	}
 
-    @DeleteMapping("/{id}")
-    @SaCheckPermission("vector:db:delete")
-    @RepeatSubmit()
-    @Log(title = "删除向量库信息", businessType = BusinessType.DELETE)
-    public R<Boolean> delete(@PathVariable Long id) {
-        return R.ok(vectorDbInfoService.deleteVectorDBInfo(id));
-    }
+	@DeleteMapping("/{id}")
+	@SaCheckPermission("vector:db:delete")
+	@RepeatSubmit()
+	@Log(title = "删除向量库信息", businessType = BusinessType.DELETE)
+	public R<Boolean> delete(@PathVariable Long id) {
+		return R.ok(vectorDbInfoService.deleteVectorDBInfo(id));
+	}
 
-    @SaCheckPermission("vector:db:update")
-    @Log(title = "修改向量库信息", businessType = BusinessType.UPDATE)
-    @RepeatSubmit()
-    @PutMapping()
-    public R<Boolean> update(@RequestBody VectorDBInfoBo vectorDBInfoBo) {
-        return R.ok(vectorDbInfoService.updateVectorDBInfo(vectorDBInfoBo));
-    }
+	@SaCheckPermission("vector:db:update")
+	@Log(title = "修改向量库信息", businessType = BusinessType.UPDATE)
+	@RepeatSubmit()
+	@PutMapping()
+	public R<Boolean> update(@RequestBody VectorDBInfoBo vectorDBInfoBo) {
+		return R.ok(vectorDbInfoService.updateVectorDBInfo(vectorDBInfoBo));
+	}
 
-    @SaCheckPermission("vector:db:detail")
-    @GetMapping("/{id}")
-    public R<VectorDBInfoVo> update(@PathVariable Long id) {
-        return R.ok(vectorDbInfoService.getVectorDBInfo(id));
-    }
+	@SaCheckPermission("vector:db:detail")
+	@GetMapping("/{id}")
+	public R<VectorDBInfoVo> detail(@PathVariable Long id) {
+		return R.ok(vectorDbInfoService.getVectorDBInfo(id));
+	}
+
+	@SaCheckPermission("vector:db:label")
+	@GetMapping("/labels")
+	public R<List<Label<Long>>> labels(@RequestParam(required = false,defaultValue = "") String keyword) {
+		return R.ok(vectorDbInfoService.listVectorLabelInfo(keyword));
+	}
 
 }
