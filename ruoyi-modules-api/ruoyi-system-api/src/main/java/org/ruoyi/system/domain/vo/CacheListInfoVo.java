@@ -14,10 +14,10 @@ import java.util.Properties;
 @Data
 public class CacheListInfoVo {
 
-    private Properties info;
+	private Properties info;
 
-    private Long dbSize;
+	private Long dbSize;
 
-    private List<Map<String, String>> commandStats;
+	private List<Map<String, String>> commandStats;
 
 }

@@ -9,9 +9,6 @@ import org.ruoyi.domain.ChatUsageToken;
 import java.io.Serial;
 import java.io.Serializable;
 
-
-
-
 /**
  * 用户token使用详情视图对象 chat_usage_token
  *
@@ -23,38 +20,37 @@ import java.io.Serializable;
 @AutoMapper(target = ChatUsageToken.class)
 public class ChatUsageTokenVo implements Serializable {
 
-    @Serial
-    private static final long serialVersionUID = 1L;
+	@Serial
+	private static final long serialVersionUID = 1L;
 
-    /**
-     * 主键
-     */
-    @ExcelProperty(value = "主键")
-    private Long id;
+	/**
+	 * 主键
+	 */
+	@ExcelProperty(value = "主键")
+	private Long id;
 
-    /**
-     * 用户
-     */
-    @ExcelProperty(value = "用户")
-    private Long userId;
+	/**
+	 * 用户
+	 */
+	@ExcelProperty(value = "用户")
+	private Long userId;
 
-    /**
-     * 待结算token
-     */
-    @ExcelProperty(value = "待结算token")
-    private Integer token;
+	/**
+	 * 待结算token
+	 */
+	@ExcelProperty(value = "待结算token")
+	private Integer token;
 
-    /**
-     * 模型名称
-     */
-    @ExcelProperty(value = "模型名称")
-    private String modelName;
+	/**
+	 * 模型名称
+	 */
+	@ExcelProperty(value = "模型名称")
+	private String modelName;
 
-    /**
-     * 累计使用token
-     */
-    @ExcelProperty(value = "累计使用token")
-    private String totalToken;
-
+	/**
+	 * 累计使用token
+	 */
+	@ExcelProperty(value = "累计使用token")
+	private String totalToken;
 
 }

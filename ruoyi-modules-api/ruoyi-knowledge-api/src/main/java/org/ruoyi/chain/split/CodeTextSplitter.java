@@ -10,8 +10,10 @@ import java.util.List;
 @AllArgsConstructor
 @Slf4j
 public class CodeTextSplitter implements TextSplitter {
-    @Override
-    public List<String> split(String content, String kid) {
-        return null;
-    }
+
+	@Override
+	public List<String> split(String content, String kid) {
+		return null;
+	}
+
 }

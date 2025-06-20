@@ -19,34 +19,33 @@ import java.io.Serial;
 @TableName("chat_session")
 public class ChatSession extends BaseEntity {
 
-    @Serial
-    private static final long serialVersionUID = 1L;
+	@Serial
+	private static final long serialVersionUID = 1L;
 
-    /**
-     * 主键
-     */
-    @TableId(value = "id")
-    private Long id;
+	/**
+	 * 主键
+	 */
+	@TableId(value = "id")
+	private Long id;
 
-    /**
-     * 用户id
-     */
-    private Long userId;
+	/**
+	 * 用户id
+	 */
+	private Long userId;
 
-    /**
-     * 会话标题
-     */
-    private String sessionTitle;
+	/**
+	 * 会话标题
+	 */
+	private String sessionTitle;
 
-    /**
-     * 会话内容
-     */
-    private String sessionContent;
+	/**
+	 * 会话内容
+	 */
+	private String sessionContent;
 
-    /**
-     * 备注
-     */
-    private String remark;
-
+	/**
+	 * 备注
+	 */
+	private String remark;
 
 }

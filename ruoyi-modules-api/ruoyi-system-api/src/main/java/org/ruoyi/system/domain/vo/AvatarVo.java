@@ -10,9 +10,9 @@ import lombok.Data;
 @Data
 public class AvatarVo {
 
-    /**
-     * 头像地址
-     */
-    private String imgUrl;
+	/**
+	 * 头像地址
+	 */
+	private String imgUrl;
 
 }

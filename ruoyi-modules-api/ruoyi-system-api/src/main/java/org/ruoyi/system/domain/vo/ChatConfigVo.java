@@ -9,7 +9,6 @@ import org.ruoyi.system.domain.ChatConfig;
 import java.io.Serial;
 import java.io.Serializable;
 
-
 /**
  * 配置信息视图对象 chat_config
  *
@@ -21,50 +20,49 @@ import java.io.Serializable;
 @AutoMapper(target = ChatConfig.class)
 public class ChatConfigVo implements Serializable {
 
-    @Serial
-    private static final long serialVersionUID = 1L;
+	@Serial
+	private static final long serialVersionUID = 1L;
 
-    /**
-     * 主键
-     */
-    @ExcelProperty(value = "主键")
-    private Long id;
+	/**
+	 * 主键
+	 */
+	@ExcelProperty(value = "主键")
+	private Long id;
 
-    /**
-     * 配置类型
-     */
-    @ExcelProperty(value = "配置类型")
-    private String category;
+	/**
+	 * 配置类型
+	 */
+	@ExcelProperty(value = "配置类型")
+	private String category;
 
-    /**
-     * 配置名称
-     */
-    @ExcelProperty(value = "配置名称")
-    private String configName;
+	/**
+	 * 配置名称
+	 */
+	@ExcelProperty(value = "配置名称")
+	private String configName;
 
-    /**
-     * 配置值
-     */
-    @ExcelProperty(value = "配置值")
-    private String configValue;
+	/**
+	 * 配置值
+	 */
+	@ExcelProperty(value = "配置值")
+	private String configValue;
 
-    /**
-     * 说明
-     */
-    @ExcelProperty(value = "说明")
-    private String configDict;
+	/**
+	 * 说明
+	 */
+	@ExcelProperty(value = "说明")
+	private String configDict;
 
-    /**
-     * 备注
-     */
-    @ExcelProperty(value = "备注")
-    private String remark;
+	/**
+	 * 备注
+	 */
+	@ExcelProperty(value = "备注")
+	private String remark;
 
-    /**
-     * 更新IP
-     */
-    @ExcelProperty(value = "更新IP")
-    private String updateIp;
-
+	/**
+	 * 更新IP
+	 */
+	@ExcelProperty(value = "更新IP")
+	private String updateIp;
 
 }

@@ -20,49 +20,48 @@ import java.math.BigDecimal;
 @TableName("chat_pay_order")
 public class ChatPayOrder extends BaseEntity {
 
-    @Serial
-    private static final long serialVersionUID = 1L;
+	@Serial
+	private static final long serialVersionUID = 1L;
 
-    /**
-     * 主键
-     */
-    @TableId(value = "id")
-    private Long id;
+	/**
+	 * 主键
+	 */
+	@TableId(value = "id")
+	private Long id;
 
-    /**
-     * 订单编号
-     */
-    private String orderNo;
+	/**
+	 * 订单编号
+	 */
+	private String orderNo;
 
-    /**
-     * 订单名称
-     */
-    private String orderName;
+	/**
+	 * 订单名称
+	 */
+	private String orderName;
 
-    /**
-     * 金额
-     */
-    private BigDecimal amount;
+	/**
+	 * 金额
+	 */
+	private BigDecimal amount;
 
-    /**
-     * 支付状态
-     */
-    private String paymentStatus;
+	/**
+	 * 支付状态
+	 */
+	private String paymentStatus;
 
-    /**
-     * 支付方式
-     */
-    private String paymentMethod;
+	/**
+	 * 支付方式
+	 */
+	private String paymentMethod;
 
-    /**
-     * 用户ID
-     */
-    private Long userId;
+	/**
+	 * 用户ID
+	 */
+	private Long userId;
 
-    /**
-     * 备注
-     */
-    private String remark;
-
+	/**
+	 * 备注
+	 */
+	private String remark;
 
 }

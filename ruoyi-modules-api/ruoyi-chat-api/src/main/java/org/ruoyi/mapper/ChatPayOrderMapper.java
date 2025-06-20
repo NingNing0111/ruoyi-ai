@@ -1,6 +1,5 @@
 package org.ruoyi.mapper;
 
-
 import org.ruoyi.core.mapper.BaseMapperPlus;
 import org.ruoyi.domain.ChatPayOrder;
 import org.ruoyi.domain.vo.ChatPayOrderVo;

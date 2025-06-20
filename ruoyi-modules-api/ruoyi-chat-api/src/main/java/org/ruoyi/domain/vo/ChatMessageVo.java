@@ -11,7 +11,6 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-
 /**
  * 聊天消息视图对象 chat_message
  *
@@ -23,68 +22,66 @@ import java.util.Date;
 @AutoMapper(target = ChatMessage.class)
 public class ChatMessageVo implements Serializable {
 
-    @Serial
-    private static final long serialVersionUID = 1L;
+	@Serial
+	private static final long serialVersionUID = 1L;
 
-    /**
-     * 主键
-     */
-    @ExcelProperty(value = "主键")
-    private Long id;
+	/**
+	 * 主键
+	 */
+	@ExcelProperty(value = "主键")
+	private Long id;
 
-    /**
-     * 用户id
-     */
-    @ExcelProperty(value = "用户id")
-    private Long userId;
+	/**
+	 * 用户id
+	 */
+	@ExcelProperty(value = "用户id")
+	private Long userId;
 
-    /**
-     * 会话id
-     */
-    private Long sessionId;
+	/**
+	 * 会话id
+	 */
+	private Long sessionId;
 
-    /**
-     * 消息内容
-     */
-    @ExcelProperty(value = "消息内容")
-    private String content;
+	/**
+	 * 消息内容
+	 */
+	@ExcelProperty(value = "消息内容")
+	private String content;
 
-    /**
-     * 对话角色
-     */
-    @ExcelProperty(value = "对话角色")
-    private String role;
+	/**
+	 * 对话角色
+	 */
+	@ExcelProperty(value = "对话角色")
+	private String role;
 
-    /**
-     * 扣除金额
-     */
-    @ExcelProperty(value = "扣除金额")
-    private BigDecimal deductCost;
+	/**
+	 * 扣除金额
+	 */
+	@ExcelProperty(value = "扣除金额")
+	private BigDecimal deductCost;
 
-    /**
-     * 累计 Tokens
-     */
-    @ExcelProperty(value = "累计 Tokens")
-    private Long totalTokens;
+	/**
+	 * 累计 Tokens
+	 */
+	@ExcelProperty(value = "累计 Tokens")
+	private Long totalTokens;
 
-    /**
-     * 模型名称
-     */
-    @ExcelProperty(value = "模型名称")
-    private String modelName;
+	/**
+	 * 模型名称
+	 */
+	@ExcelProperty(value = "模型名称")
+	private String modelName;
 
-    /**
-     * 备注
-     */
-    @ExcelProperty(value = "备注")
-    private String remark;
+	/**
+	 * 备注
+	 */
+	@ExcelProperty(value = "备注")
+	private String remark;
 
-
-    /**
-     * 创建时间
-     */
-    @ExcelProperty(value = "创建时间")
-    private Date createTime;
-
+	/**
+	 * 创建时间
+	 */
+	@ExcelProperty(value = "创建时间")
+	private Date createTime;
 
 }

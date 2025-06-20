@@ -1,0 +1,30 @@
+<optimized_prompt>
+    <task>Answer the user's question by combining knowledge base data and personal cognition.</task>
+    <context>
+        <user_question>
+            {question}
+        </user_question>
+        <data_from_knowledge_base>
+            {document_chunk_list}
+        </data_from_knowledge_base>
+        <require>
+            Please respond based on your own understanding and the data from the knowledge base. If you are unable to answer using the knowledge base, please indicate that the relevant information is missing.
+        </require>
+    </context>
+
+    <instructions>
+    1. Read and understand the question posed by the user.
+    2. Review the list of related data chunks retrieved from the knowledge base.
+    3. Prepare your answer based on the retrieved data and your own cognition:
+       - Prioritize using information from the knowledge base to construct the answer.
+       - Supplement with your own knowledge for content not covered by the knowledge base.
+    4. If the data is insufficient, honestly inform the user that the relevant information is lacking.
+    5. Organize the response to ensure it is clear and easy to understand.
+    </instructions>
+
+    <output_format>
+    Provide a concrete answer that includes both knowledge base information and personal cognition:
+    - If knowledge base data is used, cite the relevant sources.
+    - If data is lacking, state this briefly and clearly.
+    </output_format>
+</optimized_prompt>

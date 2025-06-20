@@ -11,46 +11,47 @@ import java.util.Objects;
  * @description
  */
 public enum VectorDBType {
-    MILVUS(1,"milvus"),
-    PGVECTOR(2,"pgvector");
 
-    private Integer value;
-    private String name;
+	MILVUS(1, "milvus"), PGVECTOR(2, "pgvector");
 
-    public Integer getValue() {
-        return value;
-    }
+	private Integer value;
 
-    public void setValue(Integer value) {
-        this.value = value;
-    }
+	private String name;
 
-    public String getName() {
-        return name;
-    }
+	public Integer getValue() {
+		return value;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setValue(Integer value) {
+		this.value = value;
+	}
 
-    VectorDBType(Integer value, String name) {
-        this.value = value;
-        this.name = name;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public static VectorDBType fromValue(Integer value) {
-        VectorDBType[] values = values();
-        for (VectorDBType dbType : values) {
-            if (Objects.equals(dbType.getValue(), value)) {
-                return dbType;
-            }
-        }
-        throw new IllegalArgumentException("No VectorDBType with value " + value);
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public static VectorDBType from(VectorDB vectorDB) {
-        Integer type = vectorDB.getType();
-        return VectorDBType.fromValue(type);
-    }
+	VectorDBType(Integer value, String name) {
+		this.value = value;
+		this.name = name;
+	}
+
+	public static VectorDBType fromValue(Integer value) {
+		VectorDBType[] values = values();
+		for (VectorDBType dbType : values) {
+			if (Objects.equals(dbType.getValue(), value)) {
+				return dbType;
+			}
+		}
+		throw new IllegalArgumentException("No VectorDBType with value " + value);
+	}
+
+	public static VectorDBType from(VectorDB vectorDB) {
+		Integer type = vectorDB.getType();
+		return VectorDBType.fromValue(type);
+	}
 
 }

@@ -19,31 +19,30 @@ import org.ruoyi.domain.ChatSession;
 @AutoMapper(target = ChatSession.class, reverseConvertGenerate = false)
 public class ChatSessionBo extends BaseEntity {
 
-    /**
-     * 主键
-     */
-    @NotNull(message = "主键不能为空", groups = { EditGroup.class })
-    private Long id;
+	/**
+	 * 主键
+	 */
+	@NotNull(message = "主键不能为空", groups = { EditGroup.class })
+	private Long id;
 
-    /**
-     * 用户id
-     */
-    private Long userId;
+	/**
+	 * 用户id
+	 */
+	private Long userId;
 
-    /**
-     * 会话标题
-     */
-    private String sessionTitle;
+	/**
+	 * 会话标题
+	 */
+	private String sessionTitle;
 
-    /**
-     * 会话内容
-     */
-    private String sessionContent;
+	/**
+	 * 会话内容
+	 */
+	private String sessionContent;
 
-    /**
-     * 备注
-     */
-    private String remark;
-
+	/**
+	 * 备注
+	 */
+	private String remark;
 
 }

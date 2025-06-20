@@ -17,25 +17,25 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class SysUserImportVo implements Serializable {
 
-    @Serial
-    private static final long serialVersionUID = 1L;
+	@Serial
+	private static final long serialVersionUID = 1L;
 
-    /**
-     * 用户名称
-     */
-    @ExcelProperty(value = "用户名称")
-    private String userName;
+	/**
+	 * 用户名称
+	 */
+	@ExcelProperty(value = "用户名称")
+	private String userName;
 
-    /**
-     * 用户余额
-     */
-    @ExcelProperty(value = "用户余额")
-    private Double userBalance;
+	/**
+	 * 用户余额
+	 */
+	@ExcelProperty(value = "用户余额")
+	private Double userBalance;
 
-    /**
-     * 用户等级
-     */
-    @ExcelProperty(value = "用户等级(0免费用户 1付费用户)")
-    private String userGrade;
+	/**
+	 * 用户等级
+	 */
+	@ExcelProperty(value = "用户等级(0免费用户 1付费用户)")
+	private String userGrade;
 
 }

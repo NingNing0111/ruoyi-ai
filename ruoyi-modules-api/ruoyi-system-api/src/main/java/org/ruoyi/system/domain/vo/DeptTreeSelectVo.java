@@ -13,14 +13,14 @@ import java.util.List;
 @Data
 public class DeptTreeSelectVo {
 
-    /**
-     * 选中部门列表
-     */
-    private List<Long> checkedKeys;
+	/**
+	 * 选中部门列表
+	 */
+	private List<Long> checkedKeys;
 
-    /**
-     * 下拉树结构列表
-     */
-    private List<Tree<Long>> depts;
+	/**
+	 * 下拉树结构列表
+	 */
+	private List<Tree<Long>> depts;
 
 }

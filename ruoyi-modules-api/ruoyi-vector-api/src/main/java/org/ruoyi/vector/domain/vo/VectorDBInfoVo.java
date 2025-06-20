@@ -17,115 +17,119 @@ import java.io.Serializable;
 @ExcelIgnoreUnannotated
 @AutoMapper(target = VectorDbInfo.class)
 public class VectorDBInfoVo implements Serializable {
-    private Long id;
-    private String label;
-    /**
-     * 向量数据库类型，如milvus、pgvector等，用Int常量表示
-     */
-    private Integer type;
 
-    /**
-     * 向量库主机名，域名/ip
-     */
-    private String hostname;
+	private Long id;
 
-    /**
-     * 端口号
-     */
-    private Integer port;
+	private String label;
 
-    /**
-     * 向量维度
-     */
-    private Integer dimension;
+	/**
+	 * 向量数据库类型，如milvus、pgvector等，用Int常量表示
+	 */
+	private Integer type;
 
-    /**
-     * 数据库名，有些向量数据库需要，如pgvector
-     */
-    private String dbName;
+	/**
+	 * 向量库主机名，域名/ip
+	 */
+	private String hostname;
 
-    /**
-     * 表名，部分db需要
-     */
-    private String tableName;
+	/**
+	 * 端口号
+	 */
+	private Integer port;
 
-    /**
-     * 集合名，部分db需要
-     */
-    private String collection;
+	/**
+	 * 向量维度
+	 */
+	private Integer dimension;
 
-    /**
-     * 索引类型
-     */
-    private Integer indexType;
+	/**
+	 * 数据库名，有些向量数据库需要，如pgvector
+	 */
+	private String dbName;
 
-    /**
-     * 指标类型
-     */
-    private Integer metricType;
+	/**
+	 * 表名，部分db需要
+	 */
+	private String tableName;
 
-    /**
-     * ID字段名称
-     */
-    private String idFieldName;
+	/**
+	 * 集合名，部分db需要
+	 */
+	private String collection;
 
-    /**
-     * Meta字段名称
-     */
-    private String metadataFieldName;
+	/**
+	 * 索引类型
+	 */
+	private Integer indexType;
 
-    /**
-     * 向量字段名称
-     */
-    private String embeddingFieldName;
+	/**
+	 * 指标类型
+	 */
+	private Integer metricType;
 
-    /**
-     * ID类型，如Long/String等
-     */
-    private Integer idType;
+	/**
+	 * ID字段名称
+	 */
+	private String idFieldName;
 
-    /**
-     * 距离计算类型
-     */
-    private Integer distanceType;
+	/**
+	 * Meta字段名称
+	 */
+	private String metadataFieldName;
 
-    /**
-     * 模式名（Schema Name）
-     */
-    private String schemaName;
+	/**
+	 * 向量字段名称
+	 */
+	private String embeddingFieldName;
 
-    /**
-     * 是否开启Schema验证
-     */
-    private Boolean schemaValidation;
+	/**
+	 * ID类型，如Long/String等
+	 */
+	private Integer idType;
 
-    /**
-     * 是否自动初始化Schema（建表、清空）
-     */
-    private Boolean initializeSchema;
+	/**
+	 * 距离计算类型
+	 */
+	private Integer distanceType;
 
-    /**
-     * 是否删除已存在的向量存储表
-     */
-    private Boolean removeExistingVectorStoreTable;
+	/**
+	 * 模式名（Schema Name）
+	 */
+	private String schemaName;
 
-    /**
-     * 最大文档批量处理数量
-     */
-    private Integer maxDocumentBatchSize;
+	/**
+	 * 是否开启Schema验证
+	 */
+	private Boolean schemaValidation;
 
-    /**
-     * 连接用户名
-     */
-    private String username;
+	/**
+	 * 是否自动初始化Schema（建表、清空）
+	 */
+	private Boolean initializeSchema;
 
-    /**
-     * 连接密码
-     */
-    private String password;
+	/**
+	 * 是否删除已存在的向量存储表
+	 */
+	private Boolean removeExistingVectorStoreTable;
 
-    /**
-     * 连接参数，JSON格式
-     */
-    private String connectParams;
+	/**
+	 * 最大文档批量处理数量
+	 */
+	private Integer maxDocumentBatchSize;
+
+	/**
+	 * 连接用户名
+	 */
+	private String username;
+
+	/**
+	 * 连接密码
+	 */
+	private String password;
+
+	/**
+	 * 连接参数，JSON格式
+	 */
+	private String connectParams;
+
 }

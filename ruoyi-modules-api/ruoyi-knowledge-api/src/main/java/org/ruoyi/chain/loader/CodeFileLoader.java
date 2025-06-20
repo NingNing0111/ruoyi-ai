@@ -15,23 +15,28 @@ import java.util.List;
 @AllArgsConstructor
 @Slf4j
 public class CodeFileLoader implements ResourceLoader {
-    private final TextSplitter textSplitter;
-    @Override
-    public String getContent(InputStream inputStream) {
-        StringBuffer stringBuffer = new StringBuffer();
-        try (InputStreamReader reader = new InputStreamReader(inputStream);
-             BufferedReader bufferedReader = new BufferedReader(reader)){
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                stringBuffer.append(line).append("\n");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return stringBuffer.toString();
-    }
-    @Override
-    public List<String> getChunkList(String content, String kid){
-        return textSplitter.split(content, kid);
-    }
+
+	private final TextSplitter textSplitter;
+
+	@Override
+	public String getContent(InputStream inputStream) {
+		StringBuffer stringBuffer = new StringBuffer();
+		try (InputStreamReader reader = new InputStreamReader(inputStream);
+				BufferedReader bufferedReader = new BufferedReader(reader)) {
+			String line;
+			while ((line = bufferedReader.readLine()) != null) {
+				stringBuffer.append(line).append("\n");
+			}
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+		return stringBuffer.toString();
+	}
+
+	@Override
+	public List<String> getChunkList(String content, String kid) {
+		return textSplitter.split(content, kid);
+	}
+
 }

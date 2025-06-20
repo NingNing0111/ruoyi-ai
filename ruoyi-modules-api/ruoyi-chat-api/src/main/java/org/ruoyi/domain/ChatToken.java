@@ -20,30 +20,30 @@ import java.io.Serializable;
 @TableName("chat_usage_token")
 public class ChatToken implements Serializable {
 
-    @Serial
-    private static final long serialVersionUID = 1L;
+	@Serial
+	private static final long serialVersionUID = 1L;
 
-    /**
-     * 主键
-     */
-    @NotNull(message = "主键不能为空", groups = { EditGroup.class })
-    private Long id;
+	/**
+	 * 主键
+	 */
+	@NotNull(message = "主键不能为空", groups = { EditGroup.class })
+	private Long id;
 
-    /**
-     * 用户ID
-     */
-    @NotBlank(message = "用户ID", groups = { AddGroup.class, EditGroup.class })
-    private Long UserId;
+	/**
+	 * 用户ID
+	 */
+	@NotBlank(message = "用户ID", groups = { AddGroup.class, EditGroup.class })
+	private Long UserId;
 
-    /**
-     * 待结算token
-     */
-    private Integer token;
+	/**
+	 * 待结算token
+	 */
+	private Integer token;
 
-    /**
-     * 模型名称
-     */
-    @NotBlank(message = "模型名称不能为空", groups = { AddGroup.class, EditGroup.class })
-    private String modelName;
+	/**
+	 * 模型名称
+	 */
+	@NotBlank(message = "模型名称不能为空", groups = { AddGroup.class, EditGroup.class })
+	private String modelName;
 
 }

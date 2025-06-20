@@ -15,23 +15,26 @@ import java.util.List;
 @AllArgsConstructor
 @Slf4j
 public class WordLoader implements ResourceLoader {
-    private final TextSplitter textSplitter;
-    @Override
-    public String getContent(InputStream inputStream) {
-        XWPFDocument document = null;
-        try {
-            document = new XWPFDocument(inputStream);
-            XWPFWordExtractor extractor = new XWPFWordExtractor(document);
-            String content = extractor.getText();
-            return content;
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
-    @Override
-    public List<String> getChunkList(String content, String kid) {
-        return textSplitter.split(content, kid);
-    }
+	private final TextSplitter textSplitter;
+
+	@Override
+	public String getContent(InputStream inputStream) {
+		XWPFDocument document = null;
+		try {
+			document = new XWPFDocument(inputStream);
+			XWPFWordExtractor extractor = new XWPFWordExtractor(document);
+			String content = extractor.getText();
+			return content;
+		}
+		catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@Override
+	public List<String> getChunkList(String content, String kid) {
+		return textSplitter.split(content, kid);
+	}
 
 }

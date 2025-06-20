@@ -10,19 +10,19 @@ import lombok.Data;
 @Data
 public class SysOssUploadVo {
 
-    /**
-     * URL地址
-     */
-    private String url;
+	/**
+	 * URL地址
+	 */
+	private String url;
 
-    /**
-     * 文件名
-     */
-    private String fileName;
+	/**
+	 * 文件名
+	 */
+	private String fileName;
 
-    /**
-     * 对象存储主键
-     */
-    private String ossId;
+	/**
+	 * 对象存储主键
+	 */
+	private String ossId;
 
 }

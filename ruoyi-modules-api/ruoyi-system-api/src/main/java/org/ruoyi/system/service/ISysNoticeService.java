@@ -13,56 +13,48 @@ import org.ruoyi.system.domain.vo.SysNoticeVo;
  */
 public interface ISysNoticeService {
 
+	TableDataInfo<SysNoticeVo> selectPageNoticeList(SysNoticeBo notice, PageQuery pageQuery);
 
-    TableDataInfo<SysNoticeVo> selectPageNoticeList(SysNoticeBo notice, PageQuery pageQuery);
+	/**
+	 * 查询公告信息
+	 * @param noticeId 公告ID
+	 * @return 公告信息
+	 */
+	SysNoticeVo selectNoticeById(Long noticeId);
 
+	/**
+	 * 查询公告列表
+	 * @param notice 公告信息
+	 * @return 公告集合
+	 */
+	SysNotice getNotice(SysNoticeBo notice);
 
+	/**
+	 * 新增公告
+	 * @param bo 公告信息
+	 * @return 结果
+	 */
+	int insertNotice(SysNoticeBo bo);
 
-    /**
-     * 查询公告信息
-     *
-     * @param noticeId 公告ID
-     * @return 公告信息
-     */
-    SysNoticeVo selectNoticeById(Long noticeId);
+	/**
+	 * 修改公告
+	 * @param bo 公告信息
+	 * @return 结果
+	 */
+	int updateNotice(SysNoticeBo bo);
 
-    /**
-     * 查询公告列表
-     *
-     * @param notice 公告信息
-     * @return 公告集合
-     */
-    SysNotice getNotice(SysNoticeBo notice);
+	/**
+	 * 删除公告信息
+	 * @param noticeId 公告ID
+	 * @return 结果
+	 */
+	int deleteNoticeById(Long noticeId);
 
-    /**
-     * 新增公告
-     *
-     * @param bo 公告信息
-     * @return 结果
-     */
-    int insertNotice(SysNoticeBo bo);
+	/**
+	 * 批量删除公告信息
+	 * @param noticeIds 需要删除的公告ID
+	 * @return 结果
+	 */
+	int deleteNoticeByIds(Long[] noticeIds);
 
-    /**
-     * 修改公告
-     *
-     * @param bo 公告信息
-     * @return 结果
-     */
-    int updateNotice(SysNoticeBo bo);
-
-    /**
-     * 删除公告信息
-     *
-     * @param noticeId 公告ID
-     * @return 结果
-     */
-    int deleteNoticeById(Long noticeId);
-
-    /**
-     * 批量删除公告信息
-     *
-     * @param noticeIds 需要删除的公告ID
-     * @return 结果
-     */
-    int deleteNoticeByIds(Long[] noticeIds);
 }

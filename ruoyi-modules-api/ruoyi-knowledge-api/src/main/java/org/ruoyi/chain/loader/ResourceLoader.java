@@ -8,7 +8,8 @@ import java.util.List;
  */
 public interface ResourceLoader {
 
-    String getContent(InputStream inputStream);
+	String getContent(InputStream inputStream);
 
-    List<String> getChunkList(String content, String kid);
+	List<String> getChunkList(String content, String kid);
+
 }

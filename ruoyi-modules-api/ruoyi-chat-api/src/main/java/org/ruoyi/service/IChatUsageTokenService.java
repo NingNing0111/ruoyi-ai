@@ -1,6 +1,5 @@
 package org.ruoyi.service;
 
-
 import org.ruoyi.core.page.PageQuery;
 import org.ruoyi.core.page.TableDataInfo;
 import org.ruoyi.domain.bo.ChatUsageTokenBo;
@@ -17,33 +16,34 @@ import java.util.List;
  */
 public interface IChatUsageTokenService {
 
-    /**
-     * 查询用户token使用详情
-     */
-    ChatUsageTokenVo queryById(Long id);
+	/**
+	 * 查询用户token使用详情
+	 */
+	ChatUsageTokenVo queryById(Long id);
 
-    /**
-     * 查询用户token使用详情列表
-     */
-    TableDataInfo<ChatUsageTokenVo> queryPageList(ChatUsageTokenBo bo, PageQuery pageQuery);
+	/**
+	 * 查询用户token使用详情列表
+	 */
+	TableDataInfo<ChatUsageTokenVo> queryPageList(ChatUsageTokenBo bo, PageQuery pageQuery);
 
-    /**
-     * 查询用户token使用详情列表
-     */
-    List<ChatUsageTokenVo> queryList(ChatUsageTokenBo bo);
+	/**
+	 * 查询用户token使用详情列表
+	 */
+	List<ChatUsageTokenVo> queryList(ChatUsageTokenBo bo);
 
-    /**
-     * 新增用户token使用详情
-     */
-    Boolean insertByBo(ChatUsageTokenBo bo);
+	/**
+	 * 新增用户token使用详情
+	 */
+	Boolean insertByBo(ChatUsageTokenBo bo);
 
-    /**
-     * 修改用户token使用详情
-     */
-    Boolean updateByBo(ChatUsageTokenBo bo);
+	/**
+	 * 修改用户token使用详情
+	 */
+	Boolean updateByBo(ChatUsageTokenBo bo);
 
-    /**
-     * 校验并批量删除用户token使用详情信息
-     */
-    Boolean deleteWithValidByIds(Collection<Long> ids, Boolean isValid);
+	/**
+	 * 校验并批量删除用户token使用详情信息
+	 */
+	Boolean deleteWithValidByIds(Collection<Long> ids, Boolean isValid);
+
 }

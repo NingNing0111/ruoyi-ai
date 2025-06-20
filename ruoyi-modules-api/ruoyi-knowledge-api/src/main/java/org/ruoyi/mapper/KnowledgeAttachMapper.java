@@ -1,6 +1,5 @@
 package org.ruoyi.mapper;
 
-
 import org.ruoyi.core.mapper.BaseMapperPlus;
 import org.ruoyi.domain.KnowledgeAttach;
 import org.ruoyi.domain.vo.KnowledgeAttachVo;

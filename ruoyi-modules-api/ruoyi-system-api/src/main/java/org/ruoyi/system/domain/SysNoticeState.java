@@ -19,34 +19,33 @@ import java.io.Serial;
 @TableName("sys_notice_state")
 public class SysNoticeState extends BaseEntity {
 
-    @Serial
-    private static final long serialVersionUID = 1L;
+	@Serial
+	private static final long serialVersionUID = 1L;
 
-    /**
-     * ID
-     */
-    @TableId(value = "id")
-    private Long id;
+	/**
+	 * ID
+	 */
+	@TableId(value = "id")
+	private Long id;
 
-    /**
-     * 用户ID
-     */
-    private Long userId;
+	/**
+	 * 用户ID
+	 */
+	private Long userId;
 
-    /**
-     * 公告ID
-     */
-    private Long noticeId;
+	/**
+	 * 公告ID
+	 */
+	private Long noticeId;
 
-    /**
-     * 阅读状态（0未读 1已读）
-     */
-    private String readStatus;
+	/**
+	 * 阅读状态（0未读 1已读）
+	 */
+	private String readStatus;
 
-    /**
-     * 备注
-     */
-    private String remark;
-
+	/**
+	 * 备注
+	 */
+	private String remark;
 
 }

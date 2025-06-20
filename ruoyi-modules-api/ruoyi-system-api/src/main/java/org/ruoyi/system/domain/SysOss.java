@@ -16,35 +16,35 @@ import org.ruoyi.common.tenant.core.TenantEntity;
 @TableName("sys_oss")
 public class SysOss extends TenantEntity {
 
-    /**
-     * 对象存储主键
-     */
-    @TableId(value = "oss_id")
-    private Long ossId;
+	/**
+	 * 对象存储主键
+	 */
+	@TableId(value = "oss_id")
+	private Long ossId;
 
-    /**
-     * 文件名
-     */
-    private String fileName;
+	/**
+	 * 文件名
+	 */
+	private String fileName;
 
-    /**
-     * 原名
-     */
-    private String originalName;
+	/**
+	 * 原名
+	 */
+	private String originalName;
 
-    /**
-     * 文件后缀名
-     */
-    private String fileSuffix;
+	/**
+	 * 文件后缀名
+	 */
+	private String fileSuffix;
 
-    /**
-     * URL地址
-     */
-    private String url;
+	/**
+	 * URL地址
+	 */
+	private String url;
 
-    /**
-     * 服务商
-     */
-    private String service;
+	/**
+	 * 服务商
+	 */
+	private String service;
 
 }

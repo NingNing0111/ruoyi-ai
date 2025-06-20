@@ -6,11 +6,12 @@ package org.ruoyi.common.ai.vector.exception;
  * @time 2025-06-18 14:58
  * @description
  */
-public class VectorMetricTypeUnSupportException extends RuntimeException{
-    private static final long serialVersionUID = 1L;
+public class VectorMetricTypeUnSupportException extends RuntimeException {
 
-    public VectorMetricTypeUnSupportException(String message) {
-        super(message);
-    }
+	private static final long serialVersionUID = 1L;
+
+	public VectorMetricTypeUnSupportException(String message) {
+		super(message);
+	}
 
 }

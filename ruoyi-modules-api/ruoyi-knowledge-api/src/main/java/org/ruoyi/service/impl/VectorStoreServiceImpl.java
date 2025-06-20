@@ -32,84 +32,81 @@ import java.util.List;
 @RequiredArgsConstructor
 public class VectorStoreServiceImpl implements VectorStoreService {
 
-    private final ConfigService configService;
+	private final ConfigService configService;
 
-    private EmbeddingStore<TextSegment> embeddingStore;
+	private EmbeddingStore<TextSegment> embeddingStore;
 
+	@Override
+	public void createSchema(String kid, String modelName) {
+		String protocol = configService.getConfigValue("weaviate", "protocol");
+		String host = configService.getConfigValue("weaviate", "host");
+		String className = configService.getConfigValue("weaviate", "classname");
+		embeddingStore = WeaviateEmbeddingStore.builder()
+			.scheme(protocol)
+			.host(host)
+			.objectClass(className + kid)
+			.scheme(protocol)
+			.avoidDups(true)
+			.consistencyLevel("ALL")
+			.build();
+	}
 
-    @Override
-    public void createSchema(String kid, String modelName) {
-        String protocol = configService.getConfigValue("weaviate", "protocol");
-        String host = configService.getConfigValue("weaviate", "host");
-        String className = configService.getConfigValue("weaviate", "classname");
-        embeddingStore = WeaviateEmbeddingStore.builder()
-                .scheme(protocol)
-                .host(host)
-                .objectClass(className+kid)
-                .scheme(protocol)
-                .avoidDups(true)
-                .consistencyLevel("ALL")
-                .build();
-    }
+	@Override
+	public void storeEmbeddings(StoreEmbeddingBo storeEmbeddingBo) {
+		createSchema(storeEmbeddingBo.getKid(), storeEmbeddingBo.getVectorModelName());
+		EmbeddingModel embeddingModel = getEmbeddingModel(storeEmbeddingBo.getEmbeddingModelName(),
+				storeEmbeddingBo.getApiKey(), storeEmbeddingBo.getBaseUrl());
+		List<String> chunkList = storeEmbeddingBo.getChunkList();
+		for (String s : chunkList) {
+			Embedding embedding = embeddingModel.embed(s).content();
+			TextSegment segment = TextSegment.from(s);
+			embeddingStore.add(embedding, segment);
+		}
+	}
 
-    @Override
-    public void storeEmbeddings(StoreEmbeddingBo storeEmbeddingBo) {
-        createSchema(storeEmbeddingBo.getKid(), storeEmbeddingBo.getVectorModelName());
-        EmbeddingModel embeddingModel = getEmbeddingModel(storeEmbeddingBo.getEmbeddingModelName(),
-                storeEmbeddingBo.getApiKey(), storeEmbeddingBo.getBaseUrl());
-        List<String> chunkList = storeEmbeddingBo.getChunkList();
-        for (String s : chunkList) {
-            Embedding embedding = embeddingModel.embed(s).content();
-            TextSegment segment = TextSegment.from(s);
-            embeddingStore.add(embedding, segment);
-        }
-    }
+	@Override
+	public List<String> getQueryVector(QueryVectorBo queryVectorBo) {
+		createSchema(queryVectorBo.getKid(), queryVectorBo.getVectorModelName());
+		EmbeddingModel embeddingModel = getEmbeddingModel(queryVectorBo.getEmbeddingModelName(),
+				queryVectorBo.getApiKey(), queryVectorBo.getBaseUrl());
+		Embedding queryEmbedding = embeddingModel.embed(queryVectorBo.getQuery()).content();
+		EmbeddingSearchRequest embeddingSearchRequest = EmbeddingSearchRequest.builder()
+			.queryEmbedding(queryEmbedding)
+			.maxResults(queryVectorBo.getMaxResults())
+			.build();
+		List<EmbeddingMatch<TextSegment>> matches = embeddingStore.search(embeddingSearchRequest).matches();
+		List<String> results = new ArrayList<>();
+		matches.forEach(embeddingMatch -> results.add(embeddingMatch.embedded().text()));
+		return results;
+	}
 
-    @Override
-    public List<String> getQueryVector(QueryVectorBo queryVectorBo) {
-        createSchema(queryVectorBo.getKid(), queryVectorBo.getVectorModelName());
-        EmbeddingModel embeddingModel = getEmbeddingModel(queryVectorBo.getEmbeddingModelName(),
-                queryVectorBo.getApiKey(), queryVectorBo.getBaseUrl());
-        Embedding queryEmbedding = embeddingModel.embed(queryVectorBo.getQuery()).content();
-        EmbeddingSearchRequest embeddingSearchRequest = EmbeddingSearchRequest.builder()
-                .queryEmbedding(queryEmbedding)
-                .maxResults(queryVectorBo.getMaxResults())
-                .build();
-        List<EmbeddingMatch<TextSegment>> matches = embeddingStore.search(embeddingSearchRequest).matches();
-        List<String> results = new ArrayList<>();
-        matches.forEach(embeddingMatch -> results.add(embeddingMatch.embedded().text()));
-        return results;
-    }
+	@Override
+	public void removeById(String id, String modelName) {
+		createSchema(id, modelName);
+		// 根据条件删除向量数据
+		embeddingStore.remove(id);
+	}
 
-
-    @Override
-    public void removeById(String id, String modelName) {
-        createSchema(id, modelName);
-        // 根据条件删除向量数据
-        embeddingStore.remove(id);
-    }
-
-    /**
-     * 获取向量模型
-     */
-    @SneakyThrows
-    public EmbeddingModel getEmbeddingModel(String modelName, String apiKey, String baseUrl) {
-        EmbeddingModel embeddingModel;
-        if ("quentinz/bge-large-zh-v1.5".equals(modelName)) {
-            embeddingModel = OllamaEmbeddingModel.builder()
-                    .baseUrl(baseUrl)
-                    .modelName(modelName)
-                    .build();
-        } else if ("baai/bge-m3".equals(modelName)) {
-            embeddingModel = OpenAiEmbeddingModel.builder()
-                    .apiKey(apiKey)
-                    .baseUrl(baseUrl)
-                    .modelName(modelName)
-                    .build();
-        } else {
-            throw new ServiceException("未找到对应向量化模型!");
-        }
-        return embeddingModel;
-    }
+	/**
+	 * 获取向量模型
+	 */
+	@SneakyThrows
+	public EmbeddingModel getEmbeddingModel(String modelName, String apiKey, String baseUrl) {
+		EmbeddingModel embeddingModel;
+		if ("quentinz/bge-large-zh-v1.5".equals(modelName)) {
+			embeddingModel = OllamaEmbeddingModel.builder().baseUrl(baseUrl).modelName(modelName).build();
+		}
+		else if ("baai/bge-m3".equals(modelName)) {
+			embeddingModel = OpenAiEmbeddingModel.builder()
+				.apiKey(apiKey)
+				.baseUrl(baseUrl)
+				.modelName(modelName)
+				.build();
+		}
+		else {
+			throw new ServiceException("未找到对应向量化模型!");
+		}
+		return embeddingModel;
+	}
 
 }

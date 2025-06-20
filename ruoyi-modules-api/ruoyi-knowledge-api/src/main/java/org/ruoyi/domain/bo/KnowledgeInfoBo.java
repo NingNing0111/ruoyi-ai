@@ -22,111 +22,111 @@ import org.ruoyi.domain.KnowledgeInfo;
 @AutoMapper(target = KnowledgeInfo.class, reverseConvertGenerate = false)
 public class KnowledgeInfoBo extends BaseEntity {
 
-    /**
-     *  主键
-     */
-    @NotNull(message = "不能为空", groups = { EditGroup.class })
-    private Long id;
+	/**
+	 * 主键
+	 */
+	@NotNull(message = "不能为空", groups = { EditGroup.class })
+	private Long id;
 
-    /**
-     * 知识库ID
-     */
-    @NotBlank(message = "知识库ID不能为空", groups = {EditGroup.class })
-    private String kid;
+	/**
+	 * 知识库ID
+	 */
+	@NotBlank(message = "知识库ID不能为空", groups = { EditGroup.class })
+	private String kid;
 
-    /**
-     * 用户ID
-     */
-    @NotNull(message = "用户ID不能为空", groups = {EditGroup.class })
-    private Long uid;
+	/**
+	 * 用户ID
+	 */
+	@NotNull(message = "用户ID不能为空", groups = { EditGroup.class })
+	private Long uid;
 
-    /**
-     * 知识库名称
-     */
-    @NotBlank(message = "知识库名称不能为空", groups = { AddGroup.class, EditGroup.class })
-    private String kname;
+	/**
+	 * 知识库名称
+	 */
+	@NotBlank(message = "知识库名称不能为空", groups = { AddGroup.class, EditGroup.class })
+	private String kname;
 
-    /**
-     * 是否公开知识库（0 否 1是）
-     */
-    @NotNull(message = "是否公开知识库（0 否 1是）不能为空", groups = { AddGroup.class, EditGroup.class })
-    private Integer share;
+	/**
+	 * 是否公开知识库（0 否 1是）
+	 */
+	@NotNull(message = "是否公开知识库（0 否 1是）不能为空", groups = { AddGroup.class, EditGroup.class })
+	private Integer share;
 
-    /**
-     * 描述
-     */
-    private String description;
+	/**
+	 * 描述
+	 */
+	private String description;
 
-    /**
-     * 知识分隔符
-     */
-    private String knowledgeSeparator;
+	/**
+	 * 知识分隔符
+	 */
+	private String knowledgeSeparator;
 
-    /**
-     * 提问分隔符
-     */
-    private String questionSeparator;
+	/**
+	 * 提问分隔符
+	 */
+	private String questionSeparator;
 
-    /**
-     * 重叠字符数
-     */
-    private Long overlapChar;
+	/**
+	 * 重叠字符数
+	 */
+	private Long overlapChar;
 
-    /**
-     * 知识库中检索的条数
-     */
-    @NotNull(message = "知识库中检索的条数不能为空", groups = { AddGroup.class, EditGroup.class })
-    private Long retrieveLimit;
+	/**
+	 * 知识库中检索的条数
+	 */
+	@NotNull(message = "知识库中检索的条数不能为空", groups = { AddGroup.class, EditGroup.class })
+	private Long retrieveLimit;
 
-    /**
-     * 文本块大小
-     */
-    @NotNull(message = "文本块大小不能为空", groups = { AddGroup.class, EditGroup.class })
-    private Long textBlockSize;
+	/**
+	 * 文本块大小
+	 */
+	@NotNull(message = "文本块大小不能为空", groups = { AddGroup.class, EditGroup.class })
+	private Long textBlockSize;
 
-    /**
-     * 向量库模型名称
-     */
-    @NotBlank(message = "向量库不能为空", groups = { AddGroup.class, EditGroup.class })
-    private String vectorModelName;
+	/**
+	 * 向量库模型名称
+	 */
+	@NotBlank(message = "向量库不能为空", groups = { AddGroup.class, EditGroup.class })
+	private String vectorModelName;
 
-    /**
-     * 向量化模型名称
-     */
-    @NotBlank(message = "向量模型不能为空", groups = { AddGroup.class, EditGroup.class })
-    private String embeddingModelName;
+	/**
+	 * 向量化模型名称
+	 */
+	@NotBlank(message = "向量模型不能为空", groups = { AddGroup.class, EditGroup.class })
+	private String embeddingModelName;
 
+	/**
+	 * 系统提示词
+	 */
+	private String systemPrompt;
 
-    /**
-     * 系统提示词
-     */
-    private String systemPrompt;
+	/**
+	 * 接入的向量数据库id
+	 */
+	@NotNull(message = "向量数据库id不能为空", groups = { AddGroup.class, EditGroup.class })
+	@JsonProperty("vectorId")
+	private Integer vId;
 
-    /**
-     * 接入的向量数据库id
-     */
-    @NotNull(message = "向量数据库id不能为空", groups = { AddGroup.class, EditGroup.class })
-    @JsonProperty("vectorId")
-    private Integer vId;
+	/**
+	 * 知识库的类型（1为文本知识库，2为图片知识库）
+	 */
+	@NotNull(message = "知识库的类型不能为空", groups = { AddGroup.class, EditGroup.class })
+	private Integer type;
 
-    /**
-     * 知识库的类型（1为文本知识库，2为图片知识库）
-     */
-    @NotNull(message = "知识库的类型不能为空", groups = { AddGroup.class, EditGroup.class })
-    private Integer type;
+	/**
+	 * 文档划分策略（1表示按字符数量进行划分，2为专为代码设计的切分器，3为按 Markdown 结构进行划分，4为按 Token 数量进行划分）
+	 */
+	@NotNull(message = "文档划分策略不能为空", groups = { AddGroup.class, EditGroup.class })
+	private Integer splitterType;
 
-    /**
-     * 文档划分策略（1表示按字符数量进行划分，2为专为代码设计的切分器，3为按 Markdown 结构进行划分，4为按 Token 数量进行划分）
-     */
-    @NotNull(message = "文档划分策略不能为空", groups = { AddGroup.class, EditGroup.class })
-    private Integer splitterType;
-    /**
-     * 备注
-     */
+	/**
+	 * 备注
+	 */
 
-    /**
-     * 备注
-     */
-    private String remark;
+	/**
+	 * 备注
+	 */
+	private String remark;
 
 }

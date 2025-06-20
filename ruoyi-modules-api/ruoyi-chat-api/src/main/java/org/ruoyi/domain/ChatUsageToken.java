@@ -17,34 +17,33 @@ import java.io.Serializable;
 @TableName("chat_usage_token")
 public class ChatUsageToken implements Serializable {
 
-    @Serial
-    private static final long serialVersionUID = 1L;
+	@Serial
+	private static final long serialVersionUID = 1L;
 
-    /**
-     * 主键
-     */
-    @TableId(value = "id")
-    private Long id;
+	/**
+	 * 主键
+	 */
+	@TableId(value = "id")
+	private Long id;
 
-    /**
-     * 用户
-     */
-    private Long userId;
+	/**
+	 * 用户
+	 */
+	private Long userId;
 
-    /**
-     * 待结算token
-     */
-    private Integer token;
+	/**
+	 * 待结算token
+	 */
+	private Integer token;
 
-    /**
-     * 模型名称
-     */
-    private String modelName;
+	/**
+	 * 模型名称
+	 */
+	private String modelName;
 
-    /**
-     * 累计使用token
-     */
-    private String totalToken;
-
+	/**
+	 * 累计使用token
+	 */
+	private String totalToken;
 
 }

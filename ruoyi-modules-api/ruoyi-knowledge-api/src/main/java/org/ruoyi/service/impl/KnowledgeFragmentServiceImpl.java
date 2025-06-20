@@ -29,85 +29,86 @@ import java.util.Map;
 @Service
 public class KnowledgeFragmentServiceImpl implements IKnowledgeFragmentService {
 
-    private final KnowledgeFragmentMapper baseMapper;
+	private final KnowledgeFragmentMapper baseMapper;
 
-    /**
-     * 查询知识片段
-     */
-    @Override
-    public KnowledgeFragmentVo queryById(Long id){
-        return baseMapper.selectVoById(id);
-    }
+	/**
+	 * 查询知识片段
+	 */
+	@Override
+	public KnowledgeFragmentVo queryById(Long id) {
+		return baseMapper.selectVoById(id);
+	}
 
-    /**
-     * 查询知识片段列表
-     */
-    @Override
-    public TableDataInfo<KnowledgeFragmentVo> queryPageList(KnowledgeFragmentBo bo, PageQuery pageQuery) {
-        LambdaQueryWrapper<KnowledgeFragment> lqw = buildQueryWrapper(bo);
-        Page<KnowledgeFragmentVo> result = baseMapper.selectVoPage(pageQuery.build(), lqw);
-        return TableDataInfo.build(result);
-    }
+	/**
+	 * 查询知识片段列表
+	 */
+	@Override
+	public TableDataInfo<KnowledgeFragmentVo> queryPageList(KnowledgeFragmentBo bo, PageQuery pageQuery) {
+		LambdaQueryWrapper<KnowledgeFragment> lqw = buildQueryWrapper(bo);
+		Page<KnowledgeFragmentVo> result = baseMapper.selectVoPage(pageQuery.build(), lqw);
+		return TableDataInfo.build(result);
+	}
 
-    /**
-     * 查询知识片段列表
-     */
-    @Override
-    public List<KnowledgeFragmentVo> queryList(KnowledgeFragmentBo bo) {
-        LambdaQueryWrapper<KnowledgeFragment> lqw = buildQueryWrapper(bo);
-        return baseMapper.selectVoList(lqw);
-    }
+	/**
+	 * 查询知识片段列表
+	 */
+	@Override
+	public List<KnowledgeFragmentVo> queryList(KnowledgeFragmentBo bo) {
+		LambdaQueryWrapper<KnowledgeFragment> lqw = buildQueryWrapper(bo);
+		return baseMapper.selectVoList(lqw);
+	}
 
-    private LambdaQueryWrapper<KnowledgeFragment> buildQueryWrapper(KnowledgeFragmentBo bo) {
-        Map<String, Object> params = bo.getParams();
-        LambdaQueryWrapper<KnowledgeFragment> lqw = Wrappers.lambdaQuery();
-        lqw.eq(StringUtils.isNotBlank(bo.getKid()), KnowledgeFragment::getKid, bo.getKid());
-        lqw.eq(StringUtils.isNotBlank(bo.getDocId()), KnowledgeFragment::getDocId, bo.getDocId());
-        lqw.eq(StringUtils.isNotBlank(bo.getFid()), KnowledgeFragment::getFid, bo.getFid());
-        lqw.eq(bo.getIdx() != null, KnowledgeFragment::getIdx, bo.getIdx());
-        lqw.eq(StringUtils.isNotBlank(bo.getContent()), KnowledgeFragment::getContent, bo.getContent());
-        return lqw;
-    }
+	private LambdaQueryWrapper<KnowledgeFragment> buildQueryWrapper(KnowledgeFragmentBo bo) {
+		Map<String, Object> params = bo.getParams();
+		LambdaQueryWrapper<KnowledgeFragment> lqw = Wrappers.lambdaQuery();
+		lqw.eq(StringUtils.isNotBlank(bo.getKid()), KnowledgeFragment::getKid, bo.getKid());
+		lqw.eq(StringUtils.isNotBlank(bo.getDocId()), KnowledgeFragment::getDocId, bo.getDocId());
+		lqw.eq(StringUtils.isNotBlank(bo.getFid()), KnowledgeFragment::getFid, bo.getFid());
+		lqw.eq(bo.getIdx() != null, KnowledgeFragment::getIdx, bo.getIdx());
+		lqw.eq(StringUtils.isNotBlank(bo.getContent()), KnowledgeFragment::getContent, bo.getContent());
+		return lqw;
+	}
 
-    /**
-     * 新增知识片段
-     */
-    @Override
-    public Boolean insertByBo(KnowledgeFragmentBo bo) {
-        KnowledgeFragment add = MapstructUtils.convert(bo, KnowledgeFragment.class);
-        validEntityBeforeSave(add);
-        boolean flag = baseMapper.insert(add) > 0;
-        if (flag) {
-            bo.setId(add.getId());
-        }
-        return flag;
-    }
+	/**
+	 * 新增知识片段
+	 */
+	@Override
+	public Boolean insertByBo(KnowledgeFragmentBo bo) {
+		KnowledgeFragment add = MapstructUtils.convert(bo, KnowledgeFragment.class);
+		validEntityBeforeSave(add);
+		boolean flag = baseMapper.insert(add) > 0;
+		if (flag) {
+			bo.setId(add.getId());
+		}
+		return flag;
+	}
 
-    /**
-     * 修改知识片段
-     */
-    @Override
-    public Boolean updateByBo(KnowledgeFragmentBo bo) {
-        KnowledgeFragment update = MapstructUtils.convert(bo, KnowledgeFragment.class);
-        validEntityBeforeSave(update);
-        return baseMapper.updateById(update) > 0;
-    }
+	/**
+	 * 修改知识片段
+	 */
+	@Override
+	public Boolean updateByBo(KnowledgeFragmentBo bo) {
+		KnowledgeFragment update = MapstructUtils.convert(bo, KnowledgeFragment.class);
+		validEntityBeforeSave(update);
+		return baseMapper.updateById(update) > 0;
+	}
 
-    /**
-     * 保存前的数据校验
-     */
-    private void validEntityBeforeSave(KnowledgeFragment entity){
-        //TODO 做一些数据校验,如唯一约束
-    }
+	/**
+	 * 保存前的数据校验
+	 */
+	private void validEntityBeforeSave(KnowledgeFragment entity) {
+		// TODO 做一些数据校验,如唯一约束
+	}
 
-    /**
-     * 批量删除知识片段
-     */
-    @Override
-    public Boolean deleteWithValidByIds(Collection<Long> ids, Boolean isValid) {
-        if(isValid){
-            //TODO 做一些业务上的校验,判断是否需要校验
-        }
-        return baseMapper.deleteBatchIds(ids) > 0;
-    }
+	/**
+	 * 批量删除知识片段
+	 */
+	@Override
+	public Boolean deleteWithValidByIds(Collection<Long> ids, Boolean isValid) {
+		if (isValid) {
+			// TODO 做一些业务上的校验,判断是否需要校验
+		}
+		return baseMapper.deleteBatchIds(ids) > 0;
+	}
+
 }

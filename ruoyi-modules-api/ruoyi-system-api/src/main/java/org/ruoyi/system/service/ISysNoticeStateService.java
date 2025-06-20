@@ -16,33 +16,34 @@ import java.util.List;
  */
 public interface ISysNoticeStateService {
 
-    /**
-     * 查询用户阅读状态
-     */
-    SysNoticeStateVo queryById(Long id);
+	/**
+	 * 查询用户阅读状态
+	 */
+	SysNoticeStateVo queryById(Long id);
 
-    /**
-     * 查询用户阅读状态列表
-     */
-    TableDataInfo<SysNoticeStateVo> queryPageList(SysNoticeStateBo bo, PageQuery pageQuery);
+	/**
+	 * 查询用户阅读状态列表
+	 */
+	TableDataInfo<SysNoticeStateVo> queryPageList(SysNoticeStateBo bo, PageQuery pageQuery);
 
-    /**
-     * 查询用户阅读状态列表
-     */
-    List<SysNoticeStateVo> queryList(SysNoticeStateBo bo);
+	/**
+	 * 查询用户阅读状态列表
+	 */
+	List<SysNoticeStateVo> queryList(SysNoticeStateBo bo);
 
-    /**
-     * 新增用户阅读状态
-     */
-    Boolean insertByBo(SysNoticeStateBo bo);
+	/**
+	 * 新增用户阅读状态
+	 */
+	Boolean insertByBo(SysNoticeStateBo bo);
 
-    /**
-     * 修改用户阅读状态
-     */
-    Boolean updateByBo(SysNoticeStateBo bo);
+	/**
+	 * 修改用户阅读状态
+	 */
+	Boolean updateByBo(SysNoticeStateBo bo);
 
-    /**
-     * 校验并批量删除用户阅读状态信息
-     */
-    Boolean deleteWithValidByIds(Collection<Long> ids, Boolean isValid);
+	/**
+	 * 校验并批量删除用户阅读状态信息
+	 */
+	Boolean deleteWithValidByIds(Collection<Long> ids, Boolean isValid);
+
 }

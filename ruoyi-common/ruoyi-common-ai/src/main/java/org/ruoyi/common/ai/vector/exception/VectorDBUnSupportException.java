@@ -8,35 +8,37 @@ import org.ruoyi.common.ai.vector.VectorDB;
  * @time 2025-06-18 13:02
  * @description
  */
-public class VectorDBUnSupportException extends RuntimeException{
-    private static final long serialVersionUID = 1L;
+public class VectorDBUnSupportException extends RuntimeException {
 
-    private final VectorDB vectorDB;
+	private static final long serialVersionUID = 1L;
 
-    public VectorDBUnSupportException(VectorDB vectorDB, String message) {
-        super(message);
-        this.vectorDB = vectorDB;
-    }
+	private final VectorDB vectorDB;
 
-    public VectorDBUnSupportException(VectorDB vectorDB, String message, Throwable cause) {
-        super(message, cause);
-        this.vectorDB = vectorDB;
-    }
+	public VectorDBUnSupportException(VectorDB vectorDB, String message) {
+		super(message);
+		this.vectorDB = vectorDB;
+	}
 
-    public VectorDB getVectorDB() {
-        return vectorDB;
-    }
+	public VectorDBUnSupportException(VectorDB vectorDB, String message, Throwable cause) {
+		super(message, cause);
+		this.vectorDB = vectorDB;
+	}
 
-    @Override
-    public String getMessage() {
-        return super.getMessage() + " | VectorDB info: " + vectorDBSummary();
-    }
+	public VectorDB getVectorDB() {
+		return vectorDB;
+	}
 
-    private String vectorDBSummary() {
-        if (vectorDB == null) {
-            return "null";
-        }
-        return String.format("type=%s, host=%s, port=%s",
-                vectorDB.getType(), vectorDB.getHostname(), vectorDB.getPort());
-    }
+	@Override
+	public String getMessage() {
+		return super.getMessage() + " | VectorDB info: " + vectorDBSummary();
+	}
+
+	private String vectorDBSummary() {
+		if (vectorDB == null) {
+			return "null";
+		}
+		return String.format("type=%s, host=%s, port=%s", vectorDB.getType(), vectorDB.getHostname(),
+				vectorDB.getPort());
+	}
+
 }

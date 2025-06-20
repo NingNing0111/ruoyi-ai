@@ -55,6 +55,7 @@
         <maven-compiler-plugin.verison>3.11.0</maven-compiler-plugin.verison>
         <maven-surefire-plugin.version>3.0.0</maven-surefire-plugin.version>
         <flatten-maven-plugin.version>1.3.0</flatten-maven-plugin.version>
+        <spring-javaformat-plugin.version>0.0.39</spring-javaformat-plugin.version>
     </properties>
 
     <profiles>
@@ -345,6 +346,18 @@
                 <artifactId>ruoyi-generator</artifactId>
                 <version>${revision}</version>
             </dependency>
+
+            <dependency>
+                <groupId>org.ruoyi</groupId>
+                <artifactId>ruoyi-remove-api</artifactId>
+                <version>${revision}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.ruoyi</groupId>
+                <artifactId>ruoyi-rag</artifactId>
+                <version>${revision}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -434,6 +447,20 @@
                         <phase>clean</phase>
                         <goals>
                             <goal>clean</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>io.spring.javaformat</groupId>
+                <artifactId>spring-javaformat-maven-plugin</artifactId>
+                <version>${spring-javaformat-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <inherited>true</inherited>
+                        <goals>
+                            <goal>validate</goal>
                         </goals>
                     </execution>
                 </executions>

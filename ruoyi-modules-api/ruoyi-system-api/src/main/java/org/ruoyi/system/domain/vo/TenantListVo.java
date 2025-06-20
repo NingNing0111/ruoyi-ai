@@ -12,10 +12,10 @@ import lombok.Data;
 @AutoMapper(target = SysTenantVo.class)
 public class TenantListVo {
 
-    private String tenantId;
+	private String tenantId;
 
-    private String companyName;
+	private String companyName;
 
-    private String domain;
+	private String domain;
 
 }

@@ -9,7 +9,6 @@ import org.ruoyi.domain.KnowledgeAttach;
 import java.io.Serial;
 import java.io.Serializable;
 
-
 /**
  * 知识库附件视图对象 knowledge_attach
  *
@@ -21,98 +20,97 @@ import java.io.Serializable;
 @AutoMapper(target = KnowledgeAttach.class)
 public class KnowledgeAttachVo implements Serializable {
 
-  @Serial
-  private static final long serialVersionUID = 1L;
+	@Serial
+	private static final long serialVersionUID = 1L;
 
-  /**
-   *
-   */
-  @ExcelProperty(value = "")
-  private Long id;
+	/**
+	 *
+	 */
+	@ExcelProperty(value = "")
+	private Long id;
 
-  /**
-   * 知识库ID
-   */
-  @ExcelProperty(value = "知识库ID")
-  private String kid;
+	/**
+	 * 知识库ID
+	 */
+	@ExcelProperty(value = "知识库ID")
+	private String kid;
 
-  /**
-   * 文档ID
-   */
-  @ExcelProperty(value = "文档ID")
-  private String docId;
+	/**
+	 * 文档ID
+	 */
+	@ExcelProperty(value = "文档ID")
+	private String docId;
 
-  /**
-   * 文档名称
-   */
-  @ExcelProperty(value = "文档名称")
-  private String docName;
+	/**
+	 * 文档名称
+	 */
+	@ExcelProperty(value = "文档名称")
+	private String docName;
 
-  /**
-   * 文档类型
-   */
-  @ExcelProperty(value = "文档类型")
-  private String docType;
+	/**
+	 * 文档类型
+	 */
+	@ExcelProperty(value = "文档类型")
+	private String docType;
 
-  /**
-   * 文档内容
-   */
-  @ExcelProperty(value = "文档内容")
-  private String content;
+	/**
+	 * 文档内容
+	 */
+	@ExcelProperty(value = "文档内容")
+	private String content;
 
-  /**
-   * 备注
-   */
-  @ExcelProperty(value = "备注")
-  private String remark;
+	/**
+	 * 备注
+	 */
+	@ExcelProperty(value = "备注")
+	private String remark;
 
-  /**
-   * 对象存储主键
-   */
-  @ExcelProperty(value = "对象存储主键")
-  private Long ossId;
+	/**
+	 * 对象存储主键
+	 */
+	@ExcelProperty(value = "对象存储主键")
+	private Long ossId;
 
+	/**
+	 * 拆解图片状态10未开始，20进行中，30已完成
+	 */
+	@ExcelProperty(value = "拆解图片状态10未开始，20进行中，30已完成")
+	private Integer picStatus;
 
+	/**
+	 * 分析图片状态10未开始，20进行中，30已完成
+	 */
+	@ExcelProperty(value = "分析图片状态10未开始，20进行中，30已完成")
+	private Integer picAnysStatus;
 
-  /**
-   * 拆解图片状态10未开始，20进行中，30已完成
-   */
-  @ExcelProperty(value = "拆解图片状态10未开始，20进行中，30已完成")
-  private Integer picStatus;
+	/**
+	 * 写入向量数据库状态10未开始，20进行中，30已完成
+	 */
+	@ExcelProperty(value = "写入向量数据库状态10未开始，20进行中，30已完成")
+	private Integer vectorStatus;
 
-  /**
-   * 分析图片状态10未开始，20进行中，30已完成
-   */
-  @ExcelProperty(value = "分析图片状态10未开始，20进行中，30已完成")
-  private Integer picAnysStatus;
+	/**
+	 * 桶名
+	 */
+	@ExcelProperty(value = "桶名")
+	private String bucketName;
 
-  /**
-   * 写入向量数据库状态10未开始，20进行中，30已完成
-   */
-  @ExcelProperty(value = "写入向量数据库状态10未开始，20进行中，30已完成")
-  private Integer vectorStatus;
+	/**
+	 * 对象名
+	 */
+	@ExcelProperty(value = "对象名")
+	private String objectName;
 
-  /**
-   * 桶名
-   */
-  @ExcelProperty(value = "桶名")
-  private String bucketName;
+	/**
+	 * 文档链接
+	 */
+	@ExcelProperty(value = "文档链接")
+	private String url;
 
-  /**
-   * 对象名
-   */
-  @ExcelProperty(value = "对象名")
-  private String objectName;
+	/**
+	 * 文档权重
+	 */
+	@ExcelProperty(value = "文档权重")
+	private Long score;
 
-  /**
-   * 文档链接
-   */
-  @ExcelProperty(value = "文档链接")
-  private String url;
-
-  /**
-   * 文档权重
-   */
-  @ExcelProperty(value = "文档权重")
-  private Long score;
 }

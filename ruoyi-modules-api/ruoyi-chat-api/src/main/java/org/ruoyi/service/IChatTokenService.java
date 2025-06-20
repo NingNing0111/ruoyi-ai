@@ -10,19 +10,19 @@ import org.ruoyi.domain.ChatUsageToken;
  */
 public interface IChatTokenService {
 
-    /**
-     * 查询用户token
-     */
-    ChatUsageToken queryByUserId(Long userId, String modelName);
+	/**
+	 * 查询用户token
+	 */
+	ChatUsageToken queryByUserId(Long userId, String modelName);
 
-    /**
-     * 清空用户token
-     */
-    void resetToken(Long userId,String modelName);
+	/**
+	 * 清空用户token
+	 */
+	void resetToken(Long userId, String modelName);
 
-    /**
-     * 修改用户token
-     */
-    void editToken(ChatUsageToken chatToken);
+	/**
+	 * 修改用户token
+	 */
+	void editToken(ChatUsageToken chatToken);
 
 }

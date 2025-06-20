@@ -1,6 +1,5 @@
 package org.ruoyi.mapper;
 
-
 import org.ruoyi.core.mapper.BaseMapperPlus;
 import org.ruoyi.domain.ChatUsageToken;
 import org.ruoyi.domain.vo.ChatUsageTokenVo;

@@ -12,8 +12,9 @@ import org.ruoyi.system.domain.vo.SysNoticeStateVo;
  */
 public interface SysNoticeStateMapper extends BaseMapperPlus<SysNoticeState, SysNoticeStateVo> {
 
-    /**
-     * 阅读所有公告
-     */
-    void readAllNotice();
+	/**
+	 * 阅读所有公告
+	 */
+	void readAllNotice();
+
 }

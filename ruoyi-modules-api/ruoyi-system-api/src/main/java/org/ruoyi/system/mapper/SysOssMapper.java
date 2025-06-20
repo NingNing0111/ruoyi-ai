@@ -10,4 +10,5 @@ import org.ruoyi.system.domain.vo.SysOssVo;
  * @author Lion Li
  */
 public interface SysOssMapper extends BaseMapperPlus<SysOss, SysOssVo> {
+
 }

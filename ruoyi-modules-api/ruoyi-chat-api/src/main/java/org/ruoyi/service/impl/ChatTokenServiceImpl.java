@@ -1,6 +1,5 @@
 package org.ruoyi.service.impl;
 
-
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import lombok.RequiredArgsConstructor;
 import org.ruoyi.domain.ChatUsageToken;
@@ -18,39 +17,38 @@ import org.springframework.stereotype.Service;
 @Service
 public class ChatTokenServiceImpl implements IChatTokenService {
 
-    private final ChatUsageTokenMapper baseMapper;
+	private final ChatUsageTokenMapper baseMapper;
 
-    @Override
-    public ChatUsageToken queryByUserId(Long userId, String modelName) {
-        return baseMapper.selectOne(
-            new LambdaQueryWrapper<ChatUsageToken>()
-                .eq(ChatUsageToken::getUserId, userId)
-                .eq(ChatUsageToken::getModelName, modelName)
-                .last("limit 1")
-        );
-    }
+	@Override
+	public ChatUsageToken queryByUserId(Long userId, String modelName) {
+		return baseMapper.selectOne(new LambdaQueryWrapper<ChatUsageToken>().eq(ChatUsageToken::getUserId, userId)
+			.eq(ChatUsageToken::getModelName, modelName)
+			.last("limit 1"));
+	}
 
-    /**
-     * 清空用户token
-     *
-     */
-    @Override
-    public void resetToken(Long userId,String modelName) {
-        ChatUsageToken chatToken = queryByUserId(userId, modelName);
-        chatToken.setToken(0);
-        baseMapper.updateById(chatToken);
-    }
+	/**
+	 * 清空用户token
+	 *
+	 */
+	@Override
+	public void resetToken(Long userId, String modelName) {
+		ChatUsageToken chatToken = queryByUserId(userId, modelName);
+		chatToken.setToken(0);
+		baseMapper.updateById(chatToken);
+	}
 
-    /**
-     * 增加用户token
-     *
-     */
-    @Override
-    public void editToken(ChatUsageToken chatToken) {
-        if(chatToken.getId() == null){
-            baseMapper.insert(chatToken);
-        }else {
-            baseMapper.updateById(chatToken);
-        }
-    }
+	/**
+	 * 增加用户token
+	 *
+	 */
+	@Override
+	public void editToken(ChatUsageToken chatToken) {
+		if (chatToken.getId() == null) {
+			baseMapper.insert(chatToken);
+		}
+		else {
+			baseMapper.updateById(chatToken);
+		}
+	}
+
 }

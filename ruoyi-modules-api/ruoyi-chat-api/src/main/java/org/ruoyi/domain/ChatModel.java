@@ -1,6 +1,5 @@
 package org.ruoyi.domain;
 
-
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
@@ -20,65 +19,63 @@ import java.io.Serial;
 @TableName("chat_model")
 public class ChatModel extends BaseEntity {
 
-    @Serial
-    private static final long serialVersionUID = 1L;
+	@Serial
+	private static final long serialVersionUID = 1L;
 
-    /**
-     * 主键
-     */
-    @TableId(value = "id")
-    private Long id;
+	/**
+	 * 主键
+	 */
+	@TableId(value = "id")
+	private Long id;
 
-    /**
-     * 模型分类
-     */
-    private String category;
+	/**
+	 * 模型分类
+	 */
+	private String category;
 
-    /**
-     * 模型名称
-     */
-    private String modelName;
+	/**
+	 * 模型名称
+	 */
+	private String modelName;
 
-    /**
-     * 模型描述
-     */
-    private String modelDescribe;
+	/**
+	 * 模型描述
+	 */
+	private String modelDescribe;
 
-    /**
-     * 模型价格
-     */
-    private Double modelPrice;
+	/**
+	 * 模型价格
+	 */
+	private Double modelPrice;
 
-    /**
-     * 计费类型
-     */
-    private String modelType;
+	/**
+	 * 计费类型
+	 */
+	private String modelType;
 
-    /**
-     * 是否显示
-     */
-    private String modelShow;
+	/**
+	 * 是否显示
+	 */
+	private String modelShow;
 
-    /**
-     * 系统提示词
-     */
-    private String systemPrompt;
+	/**
+	 * 系统提示词
+	 */
+	private String systemPrompt;
 
-    /**
-     * 请求地址
-     */
-    private String apiHost;
+	/**
+	 * 请求地址
+	 */
+	private String apiHost;
 
+	/**
+	 * 密钥
+	 */
+	private String apiKey;
 
-    /**
-     * 密钥
-     */
-    private String apiKey;
-
-    /**
-     * 备注
-     */
-    private String remark;
-
+	/**
+	 * 备注
+	 */
+	private String remark;
 
 }

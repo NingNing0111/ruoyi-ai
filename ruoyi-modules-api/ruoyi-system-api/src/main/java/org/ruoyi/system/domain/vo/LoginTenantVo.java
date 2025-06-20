@@ -12,14 +12,14 @@ import java.util.List;
 @Data
 public class LoginTenantVo {
 
-    /**
-     * 租户开关
-     */
-    private Boolean tenantEnabled;
+	/**
+	 * 租户开关
+	 */
+	private Boolean tenantEnabled;
 
-    /**
-     * 租户对象列表
-     */
-    private List<TenantListVo> voList;
+	/**
+	 * 租户对象列表
+	 */
+	private List<TenantListVo> voList;
 
 }

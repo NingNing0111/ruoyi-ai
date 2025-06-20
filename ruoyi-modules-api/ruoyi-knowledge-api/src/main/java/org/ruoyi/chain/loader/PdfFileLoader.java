@@ -13,22 +13,26 @@ import java.util.List;
 @Component
 @AllArgsConstructor
 public class PdfFileLoader implements ResourceLoader {
-    private final TextSplitter characterTextSplitter;
-    @Override
-    public String getContent(InputStream inputStream) {
-        PDDocument document = null;
-        try {
-            document = PDDocument.load(inputStream);
-            PDFTextStripper textStripper = new PDFTextStripper();
-            String content = textStripper.getText(document);
-            return content;
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
 
-    @Override
-    public List<String> getChunkList(String content, String kid) {
-        return characterTextSplitter.split(content, kid);
-    }
+	private final TextSplitter characterTextSplitter;
+
+	@Override
+	public String getContent(InputStream inputStream) {
+		PDDocument document = null;
+		try {
+			document = PDDocument.load(inputStream);
+			PDFTextStripper textStripper = new PDFTextStripper();
+			String content = textStripper.getText(document);
+			return content;
+		}
+		catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	@Override
+	public List<String> getChunkList(String content, String kid) {
+		return characterTextSplitter.split(content, kid);
+	}
+
 }
