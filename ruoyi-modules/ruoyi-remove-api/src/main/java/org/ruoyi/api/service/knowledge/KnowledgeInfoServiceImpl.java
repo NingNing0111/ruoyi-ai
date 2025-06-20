@@ -2,6 +2,7 @@ package org.ruoyi.api.service.knowledge;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.RandomUtil;
+import cn.hutool.crypto.digest.MD5;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -41,7 +42,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 
 
@@ -205,12 +209,19 @@ public class KnowledgeInfoServiceImpl implements IKnowledgeInfoService {
   }
 
   @Override
-  public void upload(KnowledgeInfoUploadBo bo) {
+  public void upload(KnowledgeInfoUploadBo bo) throws Exception {
     storeContent(bo.getFile(), bo.getKid(), Integer.parseInt(bo.getScore()));
   }
 
   @Transactional(rollbackFor = Exception.class)
-  public void storeContent(MultipartFile file, String kid, Integer score) {
+  public void storeContent(MultipartFile file, String kid, Integer score) throws Exception {
+    String md5 = "";
+    try {
+      md5 = getFileMd5(file.getBytes());
+    } catch (IOException e) {
+      e.printStackTrace();
+      throw new IOException("文章md5值计算错误");
+    }
     String fileName = file.getOriginalFilename();
     List<String> chunkList = new ArrayList<>();
     KnowledgeAttach knowledgeAttach = new KnowledgeAttach();
@@ -229,7 +240,13 @@ public class KnowledgeInfoServiceImpl implements IKnowledgeInfoService {
     knowledgeAttach.setContent(content);
     knowledgeAttach.setCreateTime(new Date());
     knowledgeAttach.setScore(score);
-    attachMapper.insert(knowledgeAttach);
+    knowledgeAttach.setMd5(md5);
+    try {
+      attachMapper.insert(knowledgeAttach);
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw new Exception("知识文档上传错误，同一个文件在同一知识库只能上传一次");
+    }
     List<Document> list = new ArrayList<>();
     try {
       content = resourceLoader.getContent(file.getInputStream());
@@ -262,16 +279,15 @@ public class KnowledgeInfoServiceImpl implements IKnowledgeInfoService {
       log.error("保存知识库信息失败！{}", e.getMessage());
       throw new RuntimeException(e);
     }
-
-    // 通过kid查询知识库信息
+//    通过kid查询知识库信息
     KnowledgeInfoVo knowledgeInfoVo = baseMapper.selectVoOne(Wrappers.<KnowledgeInfo>lambdaQuery()
             .eq(KnowledgeInfo::getId, kid));
+    VectorStore vectorStore = vectorDBService.getVectorStore(vectorDbInfoMapper.selectById(knowledgeInfoVo.getVId()), embeddingModel);
+    vectorStore.add(list);
 
 //    // 通过向量模型查询模型信息
 //    ChatModelVo chatModelVo = chatModelService.selectModelByName(knowledgeInfoVo.getEmbeddingModelName());
 
-    VectorStore vectorStore = vectorDBService.getVectorStore(vectorDbInfoMapper.selectById(knowledgeInfoVo.getVId()), embeddingModel);
-    vectorStore.add(list);
 //    StoreEmbeddingBo storeEmbeddingBo = new StoreEmbeddingBo();
 //    storeEmbeddingBo.setKid(kid);
 //    storeEmbeddingBo.setDocId(docId);
@@ -294,6 +310,10 @@ public class KnowledgeInfoServiceImpl implements IKnowledgeInfoService {
     if (!knowledgeInfo.getUid().equals(loginUser.getUserId())) {
       throw new SecurityException("权限不足");
     }
+  }
+
+  public String getFileMd5(byte[] fileBytes) throws IOException {
+    return MD5.create().digestHex16(fileBytes);
   }
 
 }

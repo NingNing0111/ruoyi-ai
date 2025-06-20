@@ -98,4 +98,9 @@ public class KnowledgeAttach extends BaseEntity {
 	 */
 	private Integer score;
 
+	/**
+	 * 文件计算的md5值，文件的唯一标识
+	 */
+	private String md5;
+
 }
