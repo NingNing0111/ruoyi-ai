@@ -102,6 +102,10 @@ public class KnowledgeInfoServiceImpl implements IKnowledgeInfoService {
   public TableDataInfo<KnowledgeInfoVo> queryPageList(KnowledgeInfoBo bo, PageQuery pageQuery) {
     LambdaQueryWrapper<KnowledgeInfo> lqw = buildQueryWrapper(bo);
     Page<KnowledgeInfoVo> result = baseMapper.selectVoPage(pageQuery.build(), lqw);
+    List<KnowledgeInfoVo> records = result.getRecords();
+    for (KnowledgeInfoVo record : records) {
+      record.setLabel(vectorDbInfoMapper.selectById(record.getVId()).getLabel());
+    }
     return TableDataInfo.build(result);
   }
 

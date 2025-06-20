@@ -131,4 +131,6 @@ public class KnowledgeInfoVo implements Serializable {
 	@ExcelProperty(value = "备注")
 	private String remark;
 
+	@ExcelProperty(value = "关联向量数据库描述")
+	private String label;
 }
