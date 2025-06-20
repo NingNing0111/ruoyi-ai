@@ -17,7 +17,7 @@ public interface FileSplitHelper {
 	/**
 	 * 文本切分
 	 * @param content 文本内容
-	 * @param kid 知识库id
+	 * @param splitStandard 分词标准
 	 * @return 切分后的文本列表
 	 */
 	List<String> split(String content, SplitStandard splitStandard);
