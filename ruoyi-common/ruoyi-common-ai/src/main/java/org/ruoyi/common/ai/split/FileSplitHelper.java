@@ -1,18 +1,41 @@
 package org.ruoyi.common.ai.split;
 
+import org.ruoyi.common.ai.standard.SplitStandard;
+import org.springframework.ai.document.Document;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
- * 文本切分
+ * @author Peng WenDeng
+ * @email pengwendeng@huice.com
+ * @time 2025-06-20 10-15
+ * @description 文本切分
  */
 public interface FileSplitHelper {
 
 	/**
 	 * 文本切分
 	 * @param content 文本内容
-	 * @param kid 知识库id
+	 * @param splitStandard 分词标准
 	 * @return 切分后的文本列表
 	 */
-	List<String> split(String content, String kid);
+	List<Document> split(String content, SplitStandard splitStandard);
 
+	default List<Document> split(String content) {
+		return this.split(content,null);
+	}
+
+	default Map<String, Object> getMetaData(SplitStandard splitStandard) {
+		if(splitStandard == null) {
+			return new HashMap<>();
+		}
+		Map<String, Object> map = new HashMap<>();
+		map.put("kId", splitStandard.getKId());
+		map.put("docId", splitStandard.getDocId());
+		map.put("score", splitStandard.getScore());
+		map.put("creator", splitStandard.getCreateBy());
+		return map;
+	}
 }
