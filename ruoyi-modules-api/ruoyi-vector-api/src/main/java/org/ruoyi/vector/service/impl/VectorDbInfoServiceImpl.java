@@ -14,6 +14,7 @@ import org.ruoyi.core.page.PageQuery;
 import org.ruoyi.core.page.TableDataInfo;
 import org.ruoyi.vector.domain.VectorDbInfo;
 import org.ruoyi.vector.domain.bo.VectorDBInfoBo;
+import org.ruoyi.vector.domain.vo.VectorDBInfoLabelVO;
 import org.ruoyi.vector.domain.vo.VectorDBInfoVo;
 import org.ruoyi.vector.service.VectorDbInfoService;
 import org.ruoyi.vector.mapper.VectorDbInfoMapper;
@@ -80,6 +81,14 @@ public class VectorDbInfoServiceImpl extends ServiceImpl<VectorDbInfoMapper, Vec
 	@Override
 	public VectorDBInfoVo getVectorDBInfo(Long id) {
 		return vectorDbInfoMapper.selectVoById(id);
+	}
+
+	@Override
+	public List<Label<Long>> listVectorLabelInfo(String keyword) {
+		LambdaQueryWrapper<VectorDbInfo> qw = new LambdaQueryWrapper<>();
+		qw.eq(ObjectUtils.isNotNull(keyword), VectorDbInfo::getLabel, keyword);
+		List<VectorDBInfoVo> vectorDBInfoVos = vectorDbInfoMapper.selectVoList(qw);
+		return vectorDBInfoVos.stream().map(item -> new Label<>(item.getId(), item.getLabel())).toList();
 	}
 
 	private LambdaQueryWrapper<VectorDbInfo> buildQueryWrapper(VectorDBInfoBo vectorDBInfoBo) {

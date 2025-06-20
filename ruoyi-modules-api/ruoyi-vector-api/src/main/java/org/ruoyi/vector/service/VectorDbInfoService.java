@@ -6,6 +6,7 @@ import org.ruoyi.core.page.TableDataInfo;
 import org.ruoyi.vector.domain.VectorDbInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.ruoyi.vector.domain.bo.VectorDBInfoBo;
+import org.ruoyi.vector.domain.vo.VectorDBInfoLabelVO;
 import org.ruoyi.vector.domain.vo.VectorDBInfoVo;
 
 import java.util.List;
@@ -56,5 +57,11 @@ public interface VectorDbInfoService extends IService<VectorDbInfo> {
 	 * @return 数据库信息
 	 */
 	VectorDBInfoVo getVectorDBInfo(Long id);
+
+	/**
+	 * 获取向量库列表
+	 * @return
+	 */
+	List<Label<Long>> listVectorLabelInfo(String keyword);
 
 }
