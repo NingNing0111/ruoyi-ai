@@ -285,9 +285,9 @@ public class KnowledgeInfoServiceImpl implements IKnowledgeInfoService {
           knowledgeFragmentList.add(knowledgeFragment);
           Map<String, Object> map = new HashMap<>();
           map.put("kId", kid);
-          map.put("docId", knowledgeAttach.getId());
+          map.put("docId", knowledgeAttach.getId().toString());
           map.put("score", score);
-          map.put("creator", knowledgeAttach.getCreateBy());
+          map.put("creator", knowledgeAttach.getCreateBy().toString());
           Document document = new Document(chunkList.get(i), map);
           list.add(document);
         }
