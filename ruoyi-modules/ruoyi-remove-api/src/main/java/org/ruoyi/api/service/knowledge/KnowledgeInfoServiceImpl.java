@@ -11,6 +11,7 @@ import org.ruoyi.chain.loader.ResourceLoader;
 import org.ruoyi.chain.loader.ResourceLoaderFactory;
 import org.ruoyi.common.ai.vector.VectorDBService;
 import org.ruoyi.common.core.domain.model.LoginUser;
+import org.ruoyi.common.core.domain.vo.Label;
 import org.ruoyi.common.core.utils.MapstructUtils;
 import org.ruoyi.common.core.utils.StringUtils;
 import org.ruoyi.common.minio.util.MinIOUtil;
@@ -84,6 +85,8 @@ public class KnowledgeInfoServiceImpl implements IKnowledgeInfoService {
   EmbeddingModel embeddingModel;
   @Autowired
   VectorDbInfoMapper vectorDbInfoMapper;
+  @Autowired
+  KnowledgeInfoMapper knowledgeInfoMapper;
   /**
    * 查询知识库
    */
@@ -211,6 +214,14 @@ public class KnowledgeInfoServiceImpl implements IKnowledgeInfoService {
   @Override
   public void upload(KnowledgeInfoUploadBo bo) throws Exception {
     storeContent(bo.getFile(), bo.getKid(), Integer.parseInt(bo.getScore()));
+  }
+
+  @Override
+  public List<Label<Long>> knowledgeInfoList(String keyword) {
+    LambdaQueryWrapper<KnowledgeInfo> qw = new LambdaQueryWrapper<>();
+    qw.like(StringUtils.isNotEmpty(keyword), KnowledgeInfo::getKname, keyword);
+    List<KnowledgeInfoVo> KnowledgeInfoVos = knowledgeInfoMapper.selectVoList(qw);
+    return KnowledgeInfoVos.stream().map(item -> new Label<>(item.getId(), item.getKname())).toList();
   }
 
   @Transactional(rollbackFor = Exception.class)
