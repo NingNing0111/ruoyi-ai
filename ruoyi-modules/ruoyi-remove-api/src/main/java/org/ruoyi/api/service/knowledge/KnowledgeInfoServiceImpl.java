@@ -102,6 +102,10 @@ public class KnowledgeInfoServiceImpl implements IKnowledgeInfoService {
   public TableDataInfo<KnowledgeInfoVo> queryPageList(KnowledgeInfoBo bo, PageQuery pageQuery) {
     LambdaQueryWrapper<KnowledgeInfo> lqw = buildQueryWrapper(bo);
     Page<KnowledgeInfoVo> result = baseMapper.selectVoPage(pageQuery.build(), lqw);
+    List<KnowledgeInfoVo> records = result.getRecords();
+    for (KnowledgeInfoVo record : records) {
+      record.setLabel(vectorDbInfoMapper.selectById(record.getVId()).getLabel());
+    }
     return TableDataInfo.build(result);
   }
 
@@ -281,9 +285,9 @@ public class KnowledgeInfoServiceImpl implements IKnowledgeInfoService {
           knowledgeFragmentList.add(knowledgeFragment);
           Map<String, Object> map = new HashMap<>();
           map.put("kId", kid);
-          map.put("docId", knowledgeAttach.getId());
+          map.put("docId", knowledgeAttach.getId().toString());
           map.put("score", score);
-          map.put("creator", knowledgeAttach.getCreateBy());
+          map.put("creator", knowledgeAttach.getCreateBy().toString());
           Document document = new Document(chunkList.get(i), map);
           list.add(document);
         }
