@@ -7,6 +7,12 @@ import org.springframework.context.annotation.Lazy;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+/**
+ * @author Peng WenDeng
+ * @email pengwendeng@huice.com
+ * @time 2025-06-20 10-15
+ * @description
+ */
 
 public class CharacterFileSplitHelper implements FileSplitHelper {
 

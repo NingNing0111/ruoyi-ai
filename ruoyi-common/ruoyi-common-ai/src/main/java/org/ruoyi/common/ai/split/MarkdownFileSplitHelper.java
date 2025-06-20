@@ -7,7 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
+/**
+ * @author Peng WenDeng
+ * @email pengwendeng@huice.com
+ * @time 2025-06-20 10-15
+ * @description
+ */
 @Component
 public class MarkdownFileSplitHelper implements FileSplitHelper {
 	private final int MAX_CHUCK_LENGTH = 1000;
