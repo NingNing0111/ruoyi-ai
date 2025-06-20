@@ -263,9 +263,9 @@ public class KnowledgeInfoServiceImpl implements IKnowledgeInfoService {
     knowledgeAttach.setDocId(docId);
     knowledgeAttach.setDocName(fileName);
     knowledgeAttach.setDocType(fileName.substring(fileName.lastIndexOf(".")+1));
-    String content = "";
-    List<String> fids = new ArrayList<>();
-    knowledgeAttach.setContent(content);
+//    String content = "";
+//    List<String> fids = new ArrayList<>();
+//    knowledgeAttach.setContent(content);
     knowledgeAttach.setCreateTime(new Date());
     knowledgeAttach.setScore(score);
     knowledgeAttach.setMd5(md5);
@@ -276,21 +276,6 @@ public class KnowledgeInfoServiceImpl implements IKnowledgeInfoService {
       e.printStackTrace();
       throw new Exception("知识文档上传错误，同一个文件在同一知识库只能上传一次");
     }
-    KnowledgeInfoVo knowledgeInfoVo = baseMapper.selectVoOne(Wrappers.<KnowledgeInfo>lambdaQuery()
-            .eq(KnowledgeInfo::getId, kid));
-    FileSplitHelper fileSplitHelper = getSplitHelper(knowledgeInfoVo.getSplitterType());
-    ResourceLoader resourceLoader = resourceLoaderFactory.getLoaderByFileType(knowledgeAttach.getDocType());
-    content = resourceLoader.getContent(file.getInputStream());
-    SplitStandard splitStandard = new SplitStandard.Builder()
-            .textBlockSize(knowledgeInfoVo.getTextBlockSize())
-            .separator(knowledgeInfoVo.getKnowledgeSeparator())
-            .overlapChar(knowledgeInfoVo.getOverlapChar())
-            .kId(Long.parseLong(kid))
-            .score(score)
-            .createBy(knowledgeAttach.getCreateBy())
-            .docId(knowledgeAttach.getId())
-            .build();
-    List<Document> documentList = fileSplitHelper.split(content, splitStandard);
 //    List<Document> list = new ArrayList<>();
 //    try {
 //      chunkList = resourceLoader.getChunkList(content, kid);
@@ -324,7 +309,35 @@ public class KnowledgeInfoServiceImpl implements IKnowledgeInfoService {
 //    通过kid查询知识库信息
 
     CompletableFuture.runAsync(() -> {
+      KnowledgeInfoVo knowledgeInfoVo = baseMapper.selectVoOne(Wrappers.<KnowledgeInfo>lambdaQuery()
+              .eq(KnowledgeInfo::getId, kid));
 
+      if(knowledgeInfoVo == null) {
+          log.warn("未查询到知识库 id: {}", knowledgeInfoVo.getId());
+          knowledgeAttach.setVectorStatus(VectorStatusEnums.ERROR.getCode());
+          attachMapper.updateById(knowledgeAttach);
+          return;
+      }
+
+      FileSplitHelper fileSplitHelper = getSplitHelper(knowledgeInfoVo.getSplitterType());
+      ResourceLoader resourceLoader = resourceLoaderFactory.getLoaderByFileType(knowledgeAttach.getDocType());
+      String content;
+      try {
+        content = resourceLoader.getContent(file.getInputStream());
+      } catch (IOException e) {
+        log.warn("文档内容读取错误：{}", file.getName());
+        throw new RuntimeException(e);
+      }
+      SplitStandard splitStandard = new SplitStandard.Builder()
+              .textBlockSize(knowledgeInfoVo.getTextBlockSize())
+              .separator(knowledgeInfoVo.getKnowledgeSeparator())
+              .overlapChar(knowledgeInfoVo.getOverlapChar())
+              .kId(Long.parseLong(kid))
+              .score(score)
+              .createBy(knowledgeAttach.getCreateBy())
+              .docId(knowledgeAttach.getId())
+              .build();
+      List<Document> documentList = fileSplitHelper.split(content, splitStandard);
       VectorDbInfo vectorDbInfo = vectorDbInfoMapper.selectById(knowledgeInfoVo.getVId());
       if (vectorDbInfo == null) {
         log.warn("未查询到向量数据库 id: {}", knowledgeInfoVo.getVId());
