@@ -9,6 +9,7 @@ import org.ruoyi.common.ai.vector.common.VectorDBType;
 import org.ruoyi.common.core.domain.vo.Label;
 import org.ruoyi.common.core.utils.MapstructUtils;
 import org.ruoyi.common.core.utils.ObjectUtils;
+import org.ruoyi.common.core.utils.StringUtils;
 import org.ruoyi.common.satoken.utils.LoginHelper;
 import org.ruoyi.core.page.PageQuery;
 import org.ruoyi.core.page.TableDataInfo;
@@ -86,7 +87,7 @@ public class VectorDbInfoServiceImpl extends ServiceImpl<VectorDbInfoMapper, Vec
 	@Override
 	public List<Label<Long>> listVectorLabelInfo(String keyword) {
 		LambdaQueryWrapper<VectorDbInfo> qw = new LambdaQueryWrapper<>();
-		qw.eq(ObjectUtils.isNotNull(keyword), VectorDbInfo::getLabel, keyword);
+		qw.like(StringUtils.isNotEmpty(keyword), VectorDbInfo::getLabel, keyword);
 		List<VectorDBInfoVo> vectorDBInfoVos = vectorDbInfoMapper.selectVoList(qw);
 		return vectorDBInfoVos.stream().map(item -> new Label<>(item.getId(), item.getLabel())).toList();
 	}

@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.ruoyi.chain.loader.ResourceLoader;
 import org.ruoyi.chain.loader.ResourceLoaderFactory;
 import org.ruoyi.common.core.domain.model.LoginUser;
+import org.ruoyi.common.core.domain.vo.Label;
 import org.ruoyi.common.core.utils.MapstructUtils;
 import org.ruoyi.common.core.utils.StringUtils;
 import org.ruoyi.common.minio.util.MinIOUtil;
@@ -30,6 +31,8 @@ import org.ruoyi.service.IChatModelService;
 import org.ruoyi.service.IKnowledgeInfoService;
 import org.ruoyi.service.VectorStoreService;
 import org.ruoyi.system.service.ISysOssService;
+import org.ruoyi.vector.domain.VectorDbInfo;
+import org.ruoyi.vector.domain.vo.VectorDBInfoVo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,7 +71,8 @@ public class KnowledgeInfoServiceImpl implements IKnowledgeInfoService {
   private final ISysOssService ossService;
   @Autowired
   private MinIOUtil minIOUtil;
-
+  @Autowired
+  private KnowledgeInfoMapper knowledgeInfoMapper;
   /**
    * 查询知识库
    */
@@ -196,6 +200,14 @@ public class KnowledgeInfoServiceImpl implements IKnowledgeInfoService {
   @Override
   public void upload(KnowledgeInfoUploadBo bo) {
     storeContent(bo.getFile(), bo.getKid(), Integer.parseInt(bo.getScore()));
+  }
+
+  @Override
+  public List<Label<Long>> knowledgeInfoList(String keyword) {
+    LambdaQueryWrapper<KnowledgeInfo> qw = new LambdaQueryWrapper<>();
+    qw.like(StringUtils.isNotEmpty(keyword), KnowledgeInfo::getKname, keyword);
+    List<KnowledgeInfoVo> vectorDBInfoVos = knowledgeInfoMapper.selectVoList(qw);
+    return vectorDBInfoVos.stream().map(item -> new Label<>(item.getId(), item.getKname())).toList();
   }
 
   public void storeContent(MultipartFile file, String kid, Integer score) {

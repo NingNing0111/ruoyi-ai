@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.ruoyi.common.core.domain.R;
+import org.ruoyi.common.core.domain.vo.Label;
 import org.ruoyi.common.core.validate.AddGroup;
 import org.ruoyi.common.excel.utils.ExcelUtil;
 import org.ruoyi.common.log.annotation.Log;
@@ -164,5 +165,10 @@ public class KnowledgeController extends BaseController {
   public R<Void> updateAttachScore(@RequestBody KnowledgeAttachBo bo) {
     attachService.updateByBo(bo);
      return R.ok();
+  }
+
+  @GetMapping("/knowledgeInfoList")
+  public R<List<Label<Long>>> knowledgeInfoList(@RequestParam(required = false,defaultValue = "") String keyword) {
+    return R.ok(knowledgeInfoService.knowledgeInfoList(keyword));
   }
 }

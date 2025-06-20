@@ -5,7 +5,7 @@ import org.ruoyi.core.page.TableDataInfo;
 import org.ruoyi.domain.bo.KnowledgeInfoBo;
 import org.ruoyi.domain.bo.KnowledgeInfoUploadBo;
 import org.ruoyi.domain.vo.KnowledgeInfoVo;
-
+import org.ruoyi.common.core.domain.vo.Label;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
@@ -63,4 +63,5 @@ public interface IKnowledgeInfoService {
 	 */
 	void upload(KnowledgeInfoUploadBo bo) throws Exception;
 
+	List<Label<Long>> knowledgeInfoList(String keyword);
 }

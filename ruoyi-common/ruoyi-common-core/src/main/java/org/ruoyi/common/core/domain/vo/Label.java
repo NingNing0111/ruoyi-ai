@@ -6,5 +6,5 @@ package org.ruoyi.common.core.domain.vo;
  * @time 2025-06-18 15:50
  * @description
  */
-public record Label<T>(T value, String name) {
+public record Label<T>(T value, String label) {
 }
