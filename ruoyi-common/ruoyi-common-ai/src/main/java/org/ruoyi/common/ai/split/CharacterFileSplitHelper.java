@@ -19,6 +19,7 @@ public class CharacterFileSplitHelper implements FileSplitHelper {
 
 	@Override
 	public List<Document> split(String content, SplitStandard splitStandard) {
+		content = content.replaceAll("\\r?\\n", "");
 		String knowledgeSeparator = splitStandard.getSeparator();
 		int textBlockSize = splitStandard.getTextBlockSize();
 		int overlapChar = splitStandard.getOverlapChar();

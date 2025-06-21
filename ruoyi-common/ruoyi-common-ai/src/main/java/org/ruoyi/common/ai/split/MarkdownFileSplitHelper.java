@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
  */
 @Component
 public class MarkdownFileSplitHelper implements FileSplitHelper {
-	private final int MAX_CHUCK_LENGTH = 1000;
+	private final int MAX_CHUNK_LENGTH = 1000;
 
 	@Override
 	public List<Document> split(String content, SplitStandard splitStandard) {
@@ -50,12 +50,14 @@ public class MarkdownFileSplitHelper implements FileSplitHelper {
 		for (int i = 0; i < indices.size() - 1; i++) {
 			String chunk = markdown.substring(indices.get(i), indices.get(i + 1)).trim();
 
-			// 长 chunk 可进一步按段落或 token 拆分
-			if (chunk.length() > MAX_CHUCK_LENGTH) {
-				chunks.addAll(splitByParagraph(chunk, MAX_CHUCK_LENGTH));
-			} else {
-				chunks.add(chunk);
-			}
+//			// 长 chunk 可进一步按段落或 token 拆分
+//			if (chunk.length() > MAX_CHUNK_LENGTH) {
+//				chunks.addAll(splitByParagraph(chunk, MAX_CHUNK_LENGTH));
+//			} else {
+//				chunks.add(chunk);
+//			}
+
+			chunks.add(chunk);
 		}
 		return chunks;
 	}

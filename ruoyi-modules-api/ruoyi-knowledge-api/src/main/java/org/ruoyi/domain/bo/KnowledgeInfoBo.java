@@ -81,7 +81,7 @@ public class KnowledgeInfoBo extends BaseEntity {
 	/**
 	 * 文本块大小
 	 */
-	@NotNull(message = "文本块大小不能为空", groups = { AddGroup.class, EditGroup.class })
+//	@NotNull(message = "文本块大小不能为空", groups = { AddGroup.class, EditGroup.class })
 	private Long textBlockSize;
 
 	/**
@@ -111,7 +111,7 @@ public class KnowledgeInfoBo extends BaseEntity {
 	/**
 	 * 知识库的类型（1为文本知识库，2为图片知识库）
 	 */
-	@NotNull(message = "知识库的类型不能为空", groups = { AddGroup.class, EditGroup.class })
+//	@NotNull(message = "知识库的类型不能为空", groups = { AddGroup.class, EditGroup.class })
 	private Integer type;
 
 	/**
